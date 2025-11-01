@@ -49,7 +49,14 @@ int init_graphics(t_game *game)
     return (0);
 }
 
+static int render_frame(t_game *game)
+{
+    render_map(game);
+    return (0);
+}
+
 void game_loop(t_game *game)
 {
+    mlx_loop_hook(game->mlx, render_frame, game);
     mlx_loop(game->mlx);
 }

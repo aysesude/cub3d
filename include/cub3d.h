@@ -1,6 +1,10 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -62,5 +66,8 @@ int     parse_map(t_game *game, char *filename);
 int     init_graphics(t_game *game);
 void    game_loop(t_game *game);
 void    cleanup_game(t_game *game);
+void    render_map(t_game *game);
+char	*get_next_line(int fd);
+
 
 #endif
