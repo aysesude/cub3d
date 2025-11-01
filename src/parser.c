@@ -5,7 +5,6 @@ static char *read_line(int fd)
     char *line = get_next_line(fd);
     if (!line)
         return (NULL);
-    // satır sonundaki \n'yi temizle
     int len = ft_strlen(line);
     if (len > 0 && line[len - 1] == '\n')
         line[len - 1] = '\0';
@@ -27,15 +26,17 @@ int parse_map(t_game *game, char *filename)
     if (!filename || !game)
     {
         ft_putstr_fd("Error\nInvalid filename\n", 2);
+        close(fd);
         return (-1);
     }
     int len = 0;
     while (filename[len])
         len++;
     
-    if (len < 4) // Map .cub formatında olmalı.
+    if (len < 4)
     {
         ft_putstr_fd("Error\nInvalid file extension\n", 2);
+        close(fd);
         return (-1);
     }
     
@@ -43,10 +44,9 @@ int parse_map(t_game *game, char *filename)
         filename[len-2] != 'u' || filename[len-1] != 'b')
     {
         ft_putstr_fd("Error\nFile must have .cub extension\n", 2);
+        close(fd);
         return (-1);
     }
-    
-    // Parse loadingg...
 
     while ((line = read_line(fd)))
     {
@@ -63,18 +63,36 @@ int parse_map(t_game *game, char *filename)
     game->map->height = rows;
     game->map->width = cols;
 
-    // Oyuncu pozisyonunu bul
+    /* Oyuncu pozisyonunu ve yönünü bul */
     for (int y = 0; y < rows; y++)
     {
         for (int x = 0; x < (int)ft_strlen(grid[y]); x++)
         {
-            if (grid[y][x] == 'N')
+            char c = grid[y][x];
+            if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
             {
+                /* Oyun içi pozisyon: hücrenin ortası */
                 game->player->x = x + 0.5;
                 game->player->y = y + 0.5;
-                return (0);
+                /* Yön vektörünü ata */
+                if (c == 'N') { game->player->dir_x = 0;  game->player->dir_y = -1; }
+                if (c == 'S') { game->player->dir_x = 0;  game->player->dir_y = 1;  }
+                if (c == 'E') { game->player->dir_x = 1;  game->player->dir_y = 0;  }
+                if (c == 'W') { game->player->dir_x = -1; game->player->dir_y = 0;  }
+
+                /* Kamera düzlemi (FOV yaklaşık 66°) - 0.66 civarı iyi çalışır */
+                /* plane is perpendicular to dir: ( -dir_y * scale, dir_x * scale ) */
+                double scale = 0.66;
+                game->player->plane_x = -game->player->dir_y * scale;
+                game->player->plane_y = game->player->dir_x * scale;
+
+                /* Harita üzerindeki oyuncu harfini 0'la değiştir (yürünebilir) */
+                game->map->grid[y][x] = '0';
+                goto found_player;
             }
         }
     }
+
+found_player:
     return (0);
 }

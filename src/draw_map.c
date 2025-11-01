@@ -1,10 +1,12 @@
 #include "../include/cub3d.h"
 
 #define COLOR_WALL 0x555555
-#define COLOR_PLAYER 0xFF0000
+#define COLOR_PLAYER 0x00FF00
 #define COLOR_BG 0x222222
+#define COLOR_RAY 0xAAAAAA
+#define COLOR_HIT 0xFF0000
 
-static void put_pixel(t_game *game, int x, int y, int color)
+void put_pixel(t_game *game, int x, int y, int color)
 {
     char *dst;
     if (x < 0 || y < 0 || x >= WIN_WIDTH || y >= WIN_HEIGHT)
@@ -13,14 +15,14 @@ static void put_pixel(t_game *game, int x, int y, int color)
     *(unsigned int *)dst = color;
 }
 
-static void draw_square(t_game *game, int x, int y, int size, int color)
+void draw_square(t_game *game, int x, int y, int size, int color)
 {
     for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++)
             put_pixel(game, x + j, y + i, color);
 }
 
-static void draw_circle(t_game *game, int cx, int cy, int r, int color)
+void draw_circle(t_game *game, int cx, int cy, int r, int color)
 {
     for (int y = -r; y <= r; y++)
         for (int x = -r; x <= r; x++)
@@ -28,30 +30,58 @@ static void draw_circle(t_game *game, int cx, int cy, int r, int color)
                 put_pixel(game, cx + x, cy + y, color);
 }
 
+/* Basit Bresenham çizgisi */
+void draw_line(t_game *game, int x0, int y0, int x1, int y1, int color)
+{
+    int dx = abs(x1 - x0);
+    int sx = x0 < x1 ? 1 : -1;
+    int dy = -abs(y1 - y0);
+    int sy = y0 < y1 ? 1 : -1;
+    int err = dx + dy;
+    while (1)
+    {
+        put_pixel(game, x0, y0, color);
+        if (x0 == x1 && y0 == y1) break;
+        int e2 = 2 * err;
+        if (e2 >= dy)
+        {
+            err += dy;
+            x0 += sx;
+        }
+        if (e2 <= dx)
+        {
+            err += dx;
+            y0 += sy;
+        }
+    }
+}
+
+double deg_to_rad(double deg)
+{
+    return deg * (M_PI / 180.0);
+}
+
 void render_map(t_game *game)
 {
     int map_w = game->map->width;
     int map_h = game->map->height;
 
-    // KARE boyutu hesapla
+    /* KARE boyutu hesapla */
     int tile_size = WIN_WIDTH / map_w;
     if (WIN_HEIGHT / map_h < tile_size)
         tile_size = WIN_HEIGHT / map_h;
 
-    // Map’in toplam piksel boyutları
     int map_px_w = map_w * tile_size;
     int map_px_h = map_h * tile_size;
-
-    // Ortalamak için ofset hesapla
     int offset_x = (WIN_WIDTH - map_px_w) / 2;
     int offset_y = (WIN_HEIGHT - map_px_h) / 2;
 
-    // Arka plan
+    /* Arka plan */
     for (int y = 0; y < WIN_HEIGHT; y++)
         for (int x = 0; x < WIN_WIDTH; x++)
             put_pixel(game, x, y, COLOR_BG);
 
-    // Kareleri çiz
+    /* Duvarlar */
     for (int y = 0; y < map_h; y++)
     {
         for (int x = 0; x < (int)ft_strlen(game->map->grid[y]); x++)
@@ -63,10 +93,126 @@ void render_map(t_game *game)
         }
     }
 
-    // Oyuncu
+    /* Oyuncu ekran koordinatları */
     int px = offset_x + (int)(game->player->x * tile_size);
     int py = offset_y + (int)(game->player->y * tile_size);
     draw_circle(game, px, py, tile_size / 4, COLOR_PLAYER);
+
+    /* ---------- RAYCASTING (2D DDA) ---------- */
+    /* FOV ayarları: ortada oyuncu yönü, -33 ... +33, adım 10 */
+    double fov = 66.0;
+    double half = fov / 2.0;
+    double step = 10.0;
+
+    /* oyuncu yönünün açısını bul (dir_x, dir_y -> angle) */
+    double player_angle = atan2(game->player->dir_y, game->player->dir_x); /* rad */
+
+    for (double off = -half; off <= half + 0.0001; off += step)
+    {
+        double ray_angle = player_angle + deg_to_rad(off);
+        double ray_dir_x = cos(ray_angle);
+        double ray_dir_y = sin(ray_angle);
+
+        /* DDA değişkenleri */
+        int mapX = (int)game->player->x;
+        int mapY = (int)game->player->y;
+
+        double sideDistX, sideDistY;
+        double deltaDistX = (ray_dir_x == 0) ? 1e30 : fabs(1.0 / ray_dir_x);
+        double deltaDistY = (ray_dir_y == 0) ? 1e30 : fabs(1.0 / ray_dir_y);
+        int stepX, stepY;
+        int hit = 0; /* 0=no, 1=yes */
+        int side = 0; /* 0=x, 1=y */
+
+        /* initial step and sideDist */
+        if (ray_dir_x < 0)
+        {
+            stepX = -1;
+            sideDistX = (game->player->x - mapX) * deltaDistX;
+        }
+        else
+        {
+            stepX = 1;
+            sideDistX = (mapX + 1.0 - game->player->x) * deltaDistX;
+        }
+        if (ray_dir_y < 0)
+        {
+            stepY = -1;
+            sideDistY = (game->player->y - mapY) * deltaDistY;
+        }
+        else
+        {
+            stepY = 1;
+            sideDistY = (mapY + 1.0 - game->player->y) * deltaDistY;
+        }
+
+        /* DDA loop */
+        int guard = 0;
+        while (!hit && guard < 1000)
+        {
+            if (sideDistX < sideDistY)
+            {
+                sideDistX += deltaDistX;
+                mapX += stepX;
+                side = 0;
+            }
+            else
+            {
+                sideDistY += deltaDistY;
+                mapY += stepY;
+                side = 1;
+            }
+
+            if (mapX < 0 || mapX >= map_w || mapY < 0 || mapY >= map_h)
+            {
+                /* harita dışına çıktı */
+                break;
+            }
+            if (mapX < (int)ft_strlen(game->map->grid[mapY]) &&
+                game->map->grid[mapY][mapX] == '1')
+            {
+                hit = 1;
+                break;
+            }
+            guard++;
+        }
+
+        /* Çarpma noktasını hesapla */
+        double hitX, hitY;
+        if (hit)
+        {
+            double perpDist;
+            if (side == 0)
+                perpDist = (mapX - game->player->x + (1 - stepX) / 2.0) / ray_dir_x;
+            else
+                perpDist = (mapY - game->player->y + (1 - stepY) / 2.0) / ray_dir_y;
+
+            hitX = game->player->x + perpDist * ray_dir_x;
+            hitY = game->player->y + perpDist * ray_dir_y;
+        }
+        else
+        {
+            /* Maks mesafe için bir sınır koy (ör. 30 hücre) */
+            double maxd = 30.0;
+            hitX = game->player->x + ray_dir_x * maxd;
+            hitY = game->player->y + ray_dir_y * maxd;
+        }
+
+        /* Piksel koordinatlarına çevir */
+        int hit_px = offset_x + (int)(hitX * tile_size);
+        int hit_py = offset_y + (int)(hitY * tile_size);
+
+        /* Işını çiz (oyuncudan çarpma noktasına) */
+        draw_line(game, px, py, hit_px, hit_py, COLOR_RAY);
+
+        /* Eğer duvara çarptıysa kırmızı nokta koy */
+        if (hit)
+        {
+            draw_circle(game, hit_px, hit_py, tile_size / 8 + 1, COLOR_HIT);
+        }
+    }
+
+    /* ---------- BİTTİ ---------- */
 
     mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }
