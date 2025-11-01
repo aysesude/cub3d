@@ -5,7 +5,6 @@ static char *read_line(int fd)
     char *line = get_next_line(fd);
     if (!line)
         return (NULL);
-    // satır sonundaki \n'yi temizle
     int len = ft_strlen(line);
     if (len > 0 && line[len - 1] == '\n')
         line[len - 1] = '\0';
@@ -27,27 +26,23 @@ int parse_map(t_game *game, char *filename)
     if (!filename || !game)
     {
         ft_putstr_fd("Error\nInvalid filename\n", 2);
+        close(fd);
         return (-1);
     }
+
     int len = 0;
     while (filename[len])
         len++;
     
-    if (len < 4) // Map .cub formatında olmalı.
-    {
-        ft_putstr_fd("Error\nInvalid file extension\n", 2);
-        return (-1);
-    }
-    
-    if (filename[len-4] != '.' || filename[len-3] != 'c' || 
+    if (len < 4 || filename[len-4] != '.' || filename[len-3] != 'c' ||
         filename[len-2] != 'u' || filename[len-1] != 'b')
     {
         ft_putstr_fd("Error\nFile must have .cub extension\n", 2);
+        close(fd);
         return (-1);
     }
-    
-    // Parse loadingg...
 
+    /* Haritayı oku */
     while ((line = read_line(fd)))
     {
         grid = realloc(grid, sizeof(char *) * (rows + 1));
@@ -63,18 +58,38 @@ int parse_map(t_game *game, char *filename)
     game->map->height = rows;
     game->map->width = cols;
 
-    // Oyuncu pozisyonunu bul
-    for (int y = 0; y < rows; y++)
+    /* Oyuncu pozisyonu ve yönünü bul (while kullanarak) */
+    int y = 0;
+    int player_found = 0;
+    while (y < rows && !player_found)
     {
-        for (int x = 0; x < (int)ft_strlen(grid[y]); x++)
+        int x = 0;
+        while (x < (int)ft_strlen(grid[y]) && !player_found)
         {
-            if (grid[y][x] == 'N')
+            char c = grid[y][x];
+            if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
             {
                 game->player->x = x + 0.5;
                 game->player->y = y + 0.5;
-                return (0);
+
+                /* yön vektörü */
+                if (c == 'N') { game->player->dir_x = 0;  game->player->dir_y = -1; }
+                if (c == 'S') { game->player->dir_x = 0;  game->player->dir_y = 1;  }
+                if (c == 'E') { game->player->dir_x = 1;  game->player->dir_y = 0;  }
+                if (c == 'W') { game->player->dir_x = -1; game->player->dir_y = 0;  }
+
+                double scale = 0.66;
+                game->player->plane_x = -game->player->dir_y * scale;
+                game->player->plane_y = game->player->dir_x * scale;
+
+                game->map->grid[y][x] = '0';
+                player_found = 1; /* oyuncu bulundu */
             }
+            x++;
         }
+        y++;
     }
-    return (0);
+
+    return 0;
 }
+

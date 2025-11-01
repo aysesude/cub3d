@@ -15,6 +15,10 @@
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
 
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
+
 # define WIN_WIDTH 2048
 # define WIN_HEIGHT 1024
 # define ESC_KEY 65307
@@ -68,6 +72,9 @@ void    game_loop(t_game *game);
 void    cleanup_game(t_game *game);
 void    render_map(t_game *game);
 char	*get_next_line(int fd);
-
+double  deg_to_rad(double deg);
+void    draw_line(t_game *game, int x0, int y0, int x1, int y1, int color);
+void    draw_circle(t_game *game, int cx, int cy, int r, int color);
+void    put_pixel(t_game *game, int x, int y, int color);
 
 #endif
