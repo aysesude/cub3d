@@ -17,20 +17,36 @@ void put_pixel(t_game *game, int x, int y, int color)
 
 void draw_square(t_game *game, int x, int y, int size, int color)
 {
-    for (int i = 0; i < size; i++)
-        for (int j = 0; j < size; j++)
+    int i = 0;
+    while (i < size)
+    {
+        int j = 0;
+        while (j < size)
+        {
             put_pixel(game, x + j, y + i, color);
+            j++;
+        }
+        i++;
+    }
 }
 
 void draw_circle(t_game *game, int cx, int cy, int r, int color)
 {
-    for (int y = -r; y <= r; y++)
-        for (int x = -r; x <= r; x++)
+    int y = -r;
+    while (y <= r)
+    {
+        int x = -r;
+        while (x <= r)
+        {
             if (x * x + y * y <= r * r)
                 put_pixel(game, cx + x, cy + y, color);
+            x++;
+        }
+        y++;
+    }
 }
 
-/* Basit Bresenham çizgisi */
+/* Işınları çizme */
 void draw_line(t_game *game, int x0, int y0, int x1, int y1, int color)
 {
     int dx = abs(x1 - x0);
@@ -77,20 +93,32 @@ void render_map(t_game *game)
     int offset_y = (WIN_HEIGHT - map_px_h) / 2;
 
     /* Arka plan */
-    for (int y = 0; y < WIN_HEIGHT; y++)
-        for (int x = 0; x < WIN_WIDTH; x++)
+    int y = 0;
+    while (y < WIN_HEIGHT)
+    {
+        int x = 0;
+        while (x < WIN_WIDTH)
+        {
             put_pixel(game, x, y, COLOR_BG);
+            x++;
+        }
+        y++;
+    }
 
     /* Duvarlar */
-    for (int y = 0; y < map_h; y++)
+    y = 0;
+    while (y < map_h)
     {
-        for (int x = 0; x < (int)ft_strlen(game->map->grid[y]); x++)
+        int x = 0;
+        while (x < (int)ft_strlen(game->map->grid[y]))
         {
             int sx = offset_x + x * tile_size;
             int sy = offset_y + y * tile_size;
             if (game->map->grid[y][x] == '1')
                 draw_square(game, sx, sy, tile_size, COLOR_WALL);
+            x++;
         }
+        y++;
     }
 
     /* Oyuncu ekran koordinatları */
@@ -99,21 +127,19 @@ void render_map(t_game *game)
     draw_circle(game, px, py, tile_size / 4, COLOR_PLAYER);
 
     /* ---------- RAYCASTING (2D DDA) ---------- */
-    /* FOV ayarları: ortada oyuncu yönü, -33 ... +33, adım 10 */
     double fov = 66.0;
     double half = fov / 2.0;
     double step = 10.0;
 
-    /* oyuncu yönünün açısını bul (dir_x, dir_y -> angle) */
-    double player_angle = atan2(game->player->dir_y, game->player->dir_x); /* rad */
+    double player_angle = atan2(game->player->dir_y, game->player->dir_x);
 
-    for (double off = -half; off <= half + 0.0001; off += step)
+    double off = -half;
+    while (off <= half + 0.0001)
     {
         double ray_angle = player_angle + deg_to_rad(off);
         double ray_dir_x = cos(ray_angle);
         double ray_dir_y = sin(ray_angle);
 
-        /* DDA değişkenleri */
         int mapX = (int)game->player->x;
         int mapY = (int)game->player->y;
 
@@ -121,10 +147,9 @@ void render_map(t_game *game)
         double deltaDistX = (ray_dir_x == 0) ? 1e30 : fabs(1.0 / ray_dir_x);
         double deltaDistY = (ray_dir_y == 0) ? 1e30 : fabs(1.0 / ray_dir_y);
         int stepX, stepY;
-        int hit = 0; /* 0=no, 1=yes */
-        int side = 0; /* 0=x, 1=y */
+        int hit = 0;
+        int side = 0;
 
-        /* initial step and sideDist */
         if (ray_dir_x < 0)
         {
             stepX = -1;
@@ -146,7 +171,6 @@ void render_map(t_game *game)
             sideDistY = (mapY + 1.0 - game->player->y) * deltaDistY;
         }
 
-        /* DDA loop */
         int guard = 0;
         while (!hit && guard < 1000)
         {
@@ -164,10 +188,7 @@ void render_map(t_game *game)
             }
 
             if (mapX < 0 || mapX >= map_w || mapY < 0 || mapY >= map_h)
-            {
-                /* harita dışına çıktı */
                 break;
-            }
             if (mapX < (int)ft_strlen(game->map->grid[mapY]) &&
                 game->map->grid[mapY][mapX] == '1')
             {
@@ -177,7 +198,6 @@ void render_map(t_game *game)
             guard++;
         }
 
-        /* Çarpma noktasını hesapla */
         double hitX, hitY;
         if (hit)
         {
@@ -192,27 +212,21 @@ void render_map(t_game *game)
         }
         else
         {
-            /* Maks mesafe için bir sınır koy (ör. 30 hücre) */
             double maxd = 30.0;
             hitX = game->player->x + ray_dir_x * maxd;
             hitY = game->player->y + ray_dir_y * maxd;
         }
 
-        /* Piksel koordinatlarına çevir */
         int hit_px = offset_x + (int)(hitX * tile_size);
         int hit_py = offset_y + (int)(hitY * tile_size);
 
-        /* Işını çiz (oyuncudan çarpma noktasına) */
         draw_line(game, px, py, hit_px, hit_py, COLOR_RAY);
 
-        /* Eğer duvara çarptıysa kırmızı nokta koy */
         if (hit)
-        {
             draw_circle(game, hit_px, hit_py, tile_size / 8 + 1, COLOR_HIT);
-        }
-    }
 
-    /* ---------- BİTTİ ---------- */
+        off += step;
+    }
 
     mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }
