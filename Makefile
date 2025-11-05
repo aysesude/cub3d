@@ -8,7 +8,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 MLX_DIR = minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a
 
-SRCS = main.c src/init_game.c src/parser.c src/utils.c src/graphics.c src/draw_map.c get_next_line/get_next_line.c
+SRCS = main.c src/init_game.c src/map_validation.c src/parser.c src/utils.c src/graphics.c src/draw_map.c get_next_line/get_next_line.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

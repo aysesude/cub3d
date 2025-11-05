@@ -76,5 +76,9 @@ double  deg_to_rad(double deg);
 void    draw_line(t_game *game, int x0, int y0, int x1, int y1, int color);
 void    draw_circle(t_game *game, int cx, int cy, int r, int color);
 void    put_pixel(t_game *game, int x, int y, int color);
+int validate_map(t_game *game);
+int validate_map_closed(t_game *game);
+int validate_map_walls(t_game *game);
+int validate_map_chars(t_game *game);
 
 #endif
