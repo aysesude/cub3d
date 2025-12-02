@@ -19,13 +19,9 @@
 #  define M_PI 3.14159265358979323846
 # endif
 
-# define WIN_WIDTH 2048
-# define WIN_HEIGHT 1024
+# define WIN_WIDTH 2048/3
+# define WIN_HEIGHT 1024/3
 # define ESC_KEY 65307
-# define W_KEY 119
-# define A_KEY 97
-# define S_KEY 115
-# define D_KEY 100
 # define LEFT_ARROW 65361
 # define RIGHT_ARROW 65363
 
