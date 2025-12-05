@@ -27,54 +27,72 @@
 
 typedef struct s_player
 {
-    double x;
-    double y;
-    double dir_x;
-    double dir_y;
-    double plane_x;
-    double plane_y;
-}   t_player;
+	double	x;
+	double	y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
+}	t_player;
 
 typedef struct s_map
 {
-    char    **grid;
-    int     width;
-    int     height;
-    char    *no_texture;
-    char    *so_texture;
-    char    *we_texture;
-    char    *ea_texture;
-    int     floor_color;
-    int     ceiling_color;
-}   t_map;
+	char	**grid;
+	int		width;
+	int		height;
+	char	*no_texture;
+	char	*so_texture;
+	char	*we_texture;
+	char	*ea_texture;
+	int		floor_color;
+	int		ceiling_color;
+}	t_map;
 
 typedef struct s_game
 {
-    void        *mlx;
-    void        *win;
-    void        *img;
-    char        *addr;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
-    t_map       *map;
-    t_player    *player;
-}   t_game;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	t_map		*map;
+	t_player	*player;
+}	t_game;
 
-t_game  *init_game(void);
-int     parse_map(t_game *game, char *filename);
-int     init_graphics(t_game *game);
-void    game_loop(t_game *game);
-void    cleanup_game(t_game *game);
-void    render_map(t_game *game);
+
+t_game	*init_game(void);
+void	cleanup_game(t_game *game);
+int		parse_map(t_game *game, char *filename);
+char	*read_line(int fd);
+int		is_map_line(char *line);
+int		check_file_extension(char *filename);
+int		validate_config(t_game *game);
+int		parse_north_texture(t_game *game, char *line);
+int		parse_south_texture(t_game *game, char *line);
+int		parse_west_texture(t_game *game, char *line);
+int		parse_east_texture(t_game *game, char *line);
+int		parse_rgb(char *str);
+int		parse_floor_color(t_game *game, char *line);
+int		parse_ceiling_color(t_game *game, char *line);
+int		is_player_char(char c);
+int		find_player(t_game *game);
+int		is_valid_map_char(char c);
+int		validate_map_chars(t_game *game);
+char	get_map_char(t_game *game, int x, int y);
+int		is_walkable(char c);
+int		validate_map(t_game *game);
+int		validate_map_walls(t_game *game);
+void	write_number(int n);
+int		validate_map_closed(t_game *game);
+int		init_graphics(t_game *game);
+void	game_loop(t_game *game);
+void	render_map(t_game *game);
+void	put_pixel(t_game *game, int x, int y, int color);
+void	draw_line(t_game *game, int x0, int y0, int x1, int y1, int color);
+void	draw_circle(t_game *game, int cx, int cy, int r, int color);
+double	deg_to_rad(double deg);
 char	*get_next_line(int fd);
-double  deg_to_rad(double deg);
-void    draw_line(t_game *game, int x0, int y0, int x1, int y1, int color);
-void    draw_circle(t_game *game, int cx, int cy, int r, int color);
-void    put_pixel(t_game *game, int x, int y, int color);
-int validate_map(t_game *game);
-int validate_map_closed(t_game *game);
-int validate_map_walls(t_game *game);
-int validate_map_chars(t_game *game);
 
 #endif
