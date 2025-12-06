@@ -22,8 +22,6 @@
 # define WIN_WIDTH 2048
 # define WIN_HEIGHT 1024
 # define ESC_KEY 65307
-# define LEFT_ARROW 65361
-# define RIGHT_ARROW 65363
 
 typedef struct s_player
 {
@@ -94,6 +92,6 @@ void	draw_line(t_game *game, int x0, int y0, int x1, int y1, int color);
 void	draw_circle(t_game *game, int cx, int cy, int r, int color);
 double	deg_to_rad(double deg);
 char	*get_next_line(int fd);
-void	render_simple_3d(t_game *game);
+void	render_3d(t_game *game);
 
 #endif

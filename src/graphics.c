@@ -3,6 +3,7 @@
 
 #define MOVE_SPEED 0.15
 #define ROT_SPEED 0.13962634  // 8 derece (8 * PI / 180) kafama göre verdim
+#define COLLISION_DIST 0.2    // Duvarla minimum mesafe
 
 static int is_wall(t_game *game, double x, double y)
 {
@@ -16,14 +17,28 @@ static int is_wall(t_game *game, double x, double y)
     return (game->map->grid[map_y][map_x] == '1');
 }
 
+/* Oyuncunun etrafındaki 4 köşeyi kontrol et */
+static int can_move(t_game *game, double x, double y)
+{
+    if (is_wall(game, x - COLLISION_DIST, y - COLLISION_DIST))
+        return (0);
+    if (is_wall(game, x + COLLISION_DIST, y - COLLISION_DIST))
+        return (0);
+    if (is_wall(game, x - COLLISION_DIST, y + COLLISION_DIST))
+        return (0);
+    if (is_wall(game, x + COLLISION_DIST, y + COLLISION_DIST))
+        return (0);
+    return (1);
+}
+
 static void move_forward(t_game *game)
 {
     double new_x = game->player->x + game->player->dir_x * MOVE_SPEED;
     double new_y = game->player->y + game->player->dir_y * MOVE_SPEED;
 
-    if (!is_wall(game, new_x, game->player->y))
+    if (can_move(game, new_x, game->player->y))
         game->player->x = new_x;
-    if (!is_wall(game, game->player->x, new_y))
+    if (can_move(game, game->player->x, new_y))
         game->player->y = new_y;
 }
 
@@ -32,9 +47,9 @@ static void move_backward(t_game *game)
     double new_x = game->player->x - game->player->dir_x * MOVE_SPEED;
     double new_y = game->player->y - game->player->dir_y * MOVE_SPEED;
 
-    if (!is_wall(game, new_x, game->player->y))
+    if (can_move(game, new_x, game->player->y))
         game->player->x = new_x;
-    if (!is_wall(game, game->player->x, new_y))
+    if (can_move(game, game->player->x, new_y))
         game->player->y = new_y;
 }
 
@@ -43,9 +58,9 @@ static void move_right(t_game *game)
     double new_x = game->player->x - game->player->dir_y * MOVE_SPEED;
     double new_y = game->player->y + game->player->dir_x * MOVE_SPEED;
 
-    if (!is_wall(game, new_x, game->player->y))
+    if (can_move(game, new_x, game->player->y))
         game->player->x = new_x;
-    if (!is_wall(game, game->player->x, new_y))
+    if (can_move(game, game->player->x, new_y))
         game->player->y = new_y;
 }
 
@@ -54,9 +69,9 @@ static void move_left(t_game *game)
     double new_x = game->player->x + game->player->dir_y * MOVE_SPEED;
     double new_y = game->player->y - game->player->dir_x * MOVE_SPEED;
 
-    if (!is_wall(game, new_x, game->player->y))
+    if (can_move(game, new_x, game->player->y))
         game->player->x = new_x;
-    if (!is_wall(game, game->player->x, new_y))
+    if (can_move(game, game->player->x, new_y))
         game->player->y = new_y;
 }
 
@@ -141,7 +156,7 @@ int init_graphics(t_game *game)
 
 static int render_frame(t_game *game)
 {
-    render_simple_3d(game);
+    render_3d(game);
     // render_mini_map(game);
     return (0);
 }
