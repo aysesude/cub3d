@@ -13,6 +13,7 @@ SRCS = main.c \
        src/utils.c \
        src/graphics.c \
        src/draw_minimap.c \
+       src/draw_3d_map.c \
        src/parser/parse_file.c \
        src/parser/parse_utils.c \
        src/parser/parse_texture.c \

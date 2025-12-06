@@ -2,7 +2,7 @@
 #include <math.h>
 
 #define MOVE_SPEED 0.15
-#define ROT_SPEED 0.13962634  // 8 derece (8 * PI / 180)
+#define ROT_SPEED 0.13962634  // 8 derece (8 * PI / 180) kafama göre verdim
 
 static int is_wall(t_game *game, double x, double y)
 {
@@ -141,7 +141,8 @@ int init_graphics(t_game *game)
 
 static int render_frame(t_game *game)
 {
-    render_map(game);
+    render_simple_3d(game);
+    // render_mini_map(game);
     return (0);
 }
 

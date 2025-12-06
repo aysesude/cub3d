@@ -77,7 +77,7 @@ double deg_to_rad(double deg)
     return deg * (M_PI / 180.0);
 }
 
-void render_map(t_game *game)
+void render_mini_map(t_game *game)
 {
     int map_w = game->map->width;
     int map_h = game->map->height;
