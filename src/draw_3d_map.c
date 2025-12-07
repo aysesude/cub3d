@@ -1,5 +1,41 @@
 #include "../include/cub3d.h"
 
+int	get_texture_color(t_texture *tex, int x, int y)
+{
+	char	*pixel;
+
+	if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
+		return (0);
+	pixel = tex->addr + (y * tex->line_length + x * (tex->bits_per_pixel / 8));
+	return (*(unsigned int *)pixel);
+}
+
+int	load_single_texture(t_game *game, t_texture *tex, char *path)
+{
+	tex->img = mlx_xpm_file_to_image(game->mlx, path, &tex->width, &tex->height);
+	if (!tex->img)
+	{
+		printf("Error: Failed to load texture: %s\n", path);
+		return (0);
+	}
+	tex->addr = mlx_get_data_addr(tex->img, &tex->bits_per_pixel,
+			&tex->line_length, &tex->endian);
+	return (1);
+}
+
+int	load_textures(t_game *game)
+{
+	if (!load_single_texture(game, &game->tex_no, game->map->no_texture))
+		return (0);
+	if (!load_single_texture(game, &game->tex_so, game->map->so_texture))
+		return (0);
+	if (!load_single_texture(game, &game->tex_we, game->map->we_texture))
+		return (0);
+	if (!load_single_texture(game, &game->tex_ea, game->map->ea_texture))
+		return (0);
+	return (1);
+}
+
 void	draw_vertical_line(t_game *game, int x, int start, int end, int color)
 {
 	int	y;
@@ -101,10 +137,33 @@ static void	calc_wall_height(t_game *game, t_ray *ray)
 		ray->draw_end = WIN_HEIGHT - 1;
 }
 
+static t_texture	*get_wall_texture(t_game *game, t_ray *ray)
+{
+	if (ray->side == 0)
+	{
+		if (ray->ray_dir_x > 0)
+			return (&game->tex_ea);
+		else
+			return (&game->tex_we);
+	}
+	else
+	{
+		if (ray->ray_dir_y > 0)
+			return (&game->tex_so);
+		else
+			return (&game->tex_no);
+	}
+}
+
 static void	draw_column(t_game *game, t_ray *ray, int x)
 {
-	int	y;
-	int	wall_color;
+	int			y;
+	t_texture	*tex;
+	int			tex_x;
+	int			tex_y;
+	double		wall_x;
+	double		step;
+	double		tex_pos;
 
 	y = 0;
 	while (y < ray->draw_start)
@@ -112,11 +171,26 @@ static void	draw_column(t_game *game, t_ray *ray, int x)
 		put_pixel(game, x, y, game->map->ceiling_color);
 		y++;
 	}
-	if (ray->side == 1)
-		wall_color = 0x888888;
+	tex = get_wall_texture(game, ray);
+	if (ray->side == 0)
+		wall_x = game->player->y + ray->perp_wall_dist * ray->ray_dir_y;
 	else
-		wall_color = 0xBBBBBB;
-	draw_vertical_line(game, x, ray->draw_start, ray->draw_end, wall_color);
+		wall_x = game->player->x + ray->perp_wall_dist * ray->ray_dir_x;
+	wall_x -= floor(wall_x);
+	tex_x = (int)(wall_x * (double)tex->width);
+	if ((ray->side == 0 && ray->ray_dir_x > 0)
+		|| (ray->side == 1 && ray->ray_dir_y < 0))
+		tex_x = tex->width - tex_x - 1;
+	step = 1.0 * tex->height / ray->line_height;
+	tex_pos = (ray->draw_start - WIN_HEIGHT / 2 + ray->line_height / 2) * step;
+	y = ray->draw_start;
+	while (y <= ray->draw_end)
+	{
+		tex_y = (int)tex_pos & (tex->height - 1);
+		tex_pos += step;
+		put_pixel(game, x, y, get_texture_color(tex, tex_x, tex_y));
+		y++;
+	}
 	y = ray->draw_end + 1;
 	while (y < WIN_HEIGHT)
 	{

@@ -148,7 +148,11 @@ int init_graphics(t_game *game)
 	}
 	game->addr = mlx_get_data_addr(game->img, &game->bits_per_pixel,
 								   &game->line_length, &game->endian);
-	
+	if (!load_textures(game))
+	{
+		ft_putstr_fd("Error\nTexture loading failed\n", 2);
+		return (-1);
+	}
 	mlx_hook(game->win, 2, 1L<<0, key_press, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
 	return (0);

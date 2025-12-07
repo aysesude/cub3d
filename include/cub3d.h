@@ -46,6 +46,17 @@ typedef struct s_map
 	int		ceiling_color;
 }	t_map;
 
+typedef struct s_texture
+{
+	void	*img;
+	char	*addr;
+	int		width;
+	int		height;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_texture;
+
 typedef struct s_ray
 {
 	double	ray_dir_x;
@@ -77,6 +88,10 @@ typedef struct s_game
 	int			endian;
 	t_map		*map;
 	t_player	*player;
+	t_texture	tex_no;
+	t_texture	tex_so;
+	t_texture	tex_we;
+	t_texture	tex_ea;
 }	t_game;
 
 
@@ -113,5 +128,7 @@ void	draw_circle(t_game *game, int cx, int cy, int r, int color);
 double	deg_to_rad(double deg);
 char	*get_next_line(int fd);
 void	render_3d(t_game *game);
+int		load_textures(t_game *game);
+int		get_texture_color(t_texture *tex, int x, int y);
 
 #endif
