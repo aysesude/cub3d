@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/07 11:29:43 by aycami            #+#    #+#             */
+/*   Updated: 2025/12/07 11:31:02 by aycami           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -21,7 +33,6 @@
 
 # define WIN_WIDTH 2048
 # define WIN_HEIGHT 1024
-# define ESC_KEY 65307
 
 typedef struct s_player
 {
@@ -93,7 +104,6 @@ typedef struct s_game
 	t_texture	tex_we;
 	t_texture	tex_ea;
 }	t_game;
-
 
 t_game	*init_game(void);
 void	cleanup_game(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:50 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 03:21:08 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/07 11:50:18 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,22 +125,22 @@ static void	rotate_right(t_game *game)
 
 int	key_press(int keycode, t_game *game)
 {
-	if (keycode == ESC_KEY)
+	if (keycode == 65307)
 	{
 		cleanup_game(game);
 		exit(0);
 	}
-	else if (keycode == 119)
+	if (keycode == 119)
 		move_forward(game);
-	else if (keycode == 115)
+	if (keycode == 115)
 		move_backward(game);
-	else if (keycode == 97)
+	if (keycode == 97)
 		move_left(game);
-	else if (keycode == 100)
+	if (keycode == 100)
 		move_right(game);
-	else if (keycode == 65363)
+	if (keycode == 65363)
 		rotate_left(game);
-	else if (keycode == 65361)
+	if (keycode == 65361)
 		rotate_right(game);
 	return (0);
 }

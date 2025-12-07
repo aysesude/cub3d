@@ -6,7 +6,7 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:41 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 03:11:42 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/07 11:48:57 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,6 @@ int	load_textures(t_game *game)
 	if (!load_single_texture(game, &game->tex_ea, game->map->ea_texture))
 		return (0);
 	return (1);
-}
-
-void	draw_vertical_line(t_game *game, int x, int start, int end, int color)
-{
-	int	y;
-
-	if (start < 0)
-		start = 0;
-	if (end >= WIN_HEIGHT)
-		end = WIN_HEIGHT - 1;
-	y = start;
-	while (y <= end)
-	{
-		put_pixel(game, x, y, color);
-		y++;
-	}
 }
 
 static void	init_ray(t_game *game, t_ray *ray, int x)
