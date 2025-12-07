@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   graphics.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/07 03:11:50 by aycami            #+#    #+#             */
+/*   Updated: 2025/12/07 03:21:08 by aycami           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 #include <math.h>
 
@@ -5,11 +17,13 @@
 #define ROT_SPEED 0.13962634  // 8 derece (8 * PI / 180) kafama göre verdim
 #define COLLISION_DIST 0.2    // Duvarla minimum mesafe
 
-static int is_wall(t_game *game, double x, double y)
+static int	is_wall(t_game *game, double x, double y)
 {
-	int map_x = (int)x;
-	int map_y = (int)y;
+	int	map_x;
+	int	map_y;
 
+	map_x = (int)x;
+	map_y = (int)y;
 	if (map_x < 0 || map_y < 0 || map_y >= game->map->height)
 		return (1);
 	if (map_x >= (int)ft_strlen(game->map->grid[map_y]))
@@ -18,7 +32,7 @@ static int is_wall(t_game *game, double x, double y)
 }
 
 /* Oyuncunun etrafındaki 4 köşeyi kontrol et */
-static int can_move(t_game *game, double x, double y)
+static int	can_move(t_game *game, double x, double y)
 {
 	if (is_wall(game, x - COLLISION_DIST, y - COLLISION_DIST))
 		return (0);
@@ -31,73 +45,85 @@ static int can_move(t_game *game, double x, double y)
 	return (1);
 }
 
-static void move_forward(t_game *game)
+static void	move_forward(t_game *game)
 {
-	double new_x = game->player->x + game->player->dir_x * MOVE_SPEED;
-	double new_y = game->player->y + game->player->dir_y * MOVE_SPEED;
+	double	new_x;
+	double	new_y;
 
+	new_x = game->player->x + game->player->dir_x * MOVE_SPEED;
+	new_y = game->player->y + game->player->dir_y * MOVE_SPEED;
 	if (can_move(game, new_x, game->player->y))
 		game->player->x = new_x;
 	if (can_move(game, game->player->x, new_y))
 		game->player->y = new_y;
 }
 
-static void move_backward(t_game *game)
+static void	move_backward(t_game *game)
 {
-	double new_x = game->player->x - game->player->dir_x * MOVE_SPEED;
-	double new_y = game->player->y - game->player->dir_y * MOVE_SPEED;
+	double	new_x;
+	double	new_y;
 
+	new_x = game->player->x - game->player->dir_x * MOVE_SPEED;
+	new_y = game->player->y - game->player->dir_y * MOVE_SPEED;
 	if (can_move(game, new_x, game->player->y))
 		game->player->x = new_x;
 	if (can_move(game, game->player->x, new_y))
 		game->player->y = new_y;
 }
 
-static void move_right(t_game *game)
+static void	move_right(t_game *game)
 {
-	double new_x = game->player->x - game->player->dir_y * MOVE_SPEED;
-	double new_y = game->player->y + game->player->dir_x * MOVE_SPEED;
+	double	new_x;
+	double	new_y;
 
+	new_x = game->player->x - game->player->dir_y * MOVE_SPEED;
+	new_y = game->player->y + game->player->dir_x * MOVE_SPEED;
 	if (can_move(game, new_x, game->player->y))
 		game->player->x = new_x;
 	if (can_move(game, game->player->x, new_y))
 		game->player->y = new_y;
 }
 
-static void move_left(t_game *game)
+static void	move_left(t_game *game)
 {
-	double new_x = game->player->x + game->player->dir_y * MOVE_SPEED;
-	double new_y = game->player->y - game->player->dir_x * MOVE_SPEED;
+	double	new_x;
+	double	new_y;
 
+	new_x = game->player->x + game->player->dir_y * MOVE_SPEED;
+	new_y = game->player->y - game->player->dir_x * MOVE_SPEED;
 	if (can_move(game, new_x, game->player->y))
 		game->player->x = new_x;
 	if (can_move(game, game->player->x, new_y))
 		game->player->y = new_y;
 }
 
-static void rotate_left(t_game *game)
+static void	rotate_left(t_game *game)
 {
-	double old_dir_x = game->player->dir_x;
-	double old_plane_x = game->player->plane_x;
+	double	old_dir_x;
+	double	old_plane_x;
 
+	old_dir_x = game->player->dir_x;
+	old_plane_x = game->player->plane_x;
 	game->player->dir_x = game->player->dir_x * cos(ROT_SPEED) - game->player->dir_y * sin(ROT_SPEED);
 	game->player->dir_y = old_dir_x * sin(ROT_SPEED) + game->player->dir_y * cos(ROT_SPEED);
 	game->player->plane_x = game->player->plane_x * cos(ROT_SPEED) - game->player->plane_y * sin(ROT_SPEED);
 	game->player->plane_y = old_plane_x * sin(ROT_SPEED) + game->player->plane_y * cos(ROT_SPEED);
 }
 
-static void rotate_right(t_game *game)
+static void	rotate_right(t_game *game)
 {
-	double old_dir_x = game->player->dir_x;
-	double old_plane_x = game->player->plane_x;
+	double	old_dir_x;
+	double	old_plane_x;
 
+	old_dir_x = game->player->dir_x;
+	old_plane_x = game->player->plane_x;
 	game->player->dir_x = game->player->dir_x * cos(-ROT_SPEED) - game->player->dir_y * sin(-ROT_SPEED);
 	game->player->dir_y = old_dir_x * sin(-ROT_SPEED) + game->player->dir_y * cos(-ROT_SPEED);
 	game->player->plane_x = game->player->plane_x * cos(-ROT_SPEED) - game->player->plane_y * sin(-ROT_SPEED);
 	game->player->plane_y = old_plane_x * sin(-ROT_SPEED) + game->player->plane_y * cos(-ROT_SPEED);
 }
 
-int key_press(int keycode, t_game *game)
+int	key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC_KEY)
 	{
@@ -119,14 +145,14 @@ int key_press(int keycode, t_game *game)
 	return (0);
 }
 
-int close_window(t_game *game)
+int	close_window(t_game *game)
 {
 	cleanup_game(game);
 	exit(0);
 	return (0);
 }
 
-int init_graphics(t_game *game)
+int	init_graphics(t_game *game)
 {
 	game->mlx = mlx_init();
 	if (!game->mlx)
@@ -147,25 +173,25 @@ int init_graphics(t_game *game)
 		return (-1);
 	}
 	game->addr = mlx_get_data_addr(game->img, &game->bits_per_pixel,
-								   &game->line_length, &game->endian);
+			&game->line_length, &game->endian);
 	if (!load_textures(game))
 	{
 		ft_putstr_fd("Error\nTexture loading failed\n", 2);
 		return (-1);
 	}
-	mlx_hook(game->win, 2, 1L<<0, key_press, game);
+	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
 	return (0);
 }
 
-static int render_frame(t_game *game)
+static int	render_frame(t_game *game)
 {
 	render_3d(game);
 	// render_mini_map(game);
 	return (0);
 }
 
-void game_loop(t_game *game)
+void	game_loop(t_game *game)
 {
 	mlx_loop_hook(game->mlx, render_frame, game);
 	mlx_loop(game->mlx);
