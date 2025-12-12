@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:12:01 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 03:13:04 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/12 17:39:39 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,23 @@ static void	cleanup_map(t_game *game)
 	free(game->map);
 }
 
+static void	cleanup_textures(t_game *game)
+{
+	if (game->tex_no.img)
+		mlx_destroy_image(game->mlx, game->tex_no.img);
+	if (game->tex_so.img)
+		mlx_destroy_image(game->mlx, game->tex_so.img);
+	if (game->tex_we.img)
+		mlx_destroy_image(game->mlx, game->tex_we.img);
+	if (game->tex_ea.img)
+		mlx_destroy_image(game->mlx, game->tex_ea.img);
+}
+
 void	cleanup_game(t_game *game)
 {
 	if (!game)
 		return ;
+	cleanup_textures(game);
 	cleanup_map(game);
 	if (game->player)
 		free(game->player);
@@ -47,6 +60,9 @@ void	cleanup_game(t_game *game)
 	if (game->win)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->mlx)
+	{
 		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+	}
 	free(game);
 }
