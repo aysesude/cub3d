@@ -173,8 +173,52 @@ static void	draw_column(t_game *game, t_ray *ray, int x)
 		put_pixel(game, x, y, game->map->ceiling_color);
 		y++;
 	}
-	if (game->map->grid[ray->map_y][ray->map_x] == 'D' && game->map->do_texture)
-		tex = &game->tex_do;
+	if (game->map->do_texture)
+	{
+		if (game->map->grid[ray->map_y][ray->map_x] == 'D')
+			tex = &game->tex_do;
+		else if (game->map->grid[ray->map_y][ray->map_x] == '1')
+		{
+			// Kapı açıkken ('o'), komşu duvara iç yüzünde kapı texture'ı uygula
+			// NS: kapı 'o' kuzeydeyse ve güney duvarın iç yüzü render ediliyorsa
+			// EW: kapı 'o' doğudaysa ve batı duvarın iç yüzü render ediliyorsa
+			int mx = ray->map_x;
+			int my = ray->map_y;
+			size_t len_m = ft_strlen(game->map->grid[my]);
+			int has_open_n = 0;
+			int has_open_e = 0;
+			if (my - 1 >= 0)
+			{
+				size_t len_n = ft_strlen(game->map->grid[my - 1]);
+				if ((size_t)mx < len_n && game->map->grid[my - 1][mx] == 'o')
+					has_open_n = 1;
+			}
+			// güney ve batı tarafı kullanılmıyor; sadece istenen iç yüzler
+			if ((size_t)(mx + 1) < len_m && game->map->grid[my][mx + 1] == 'o')
+				has_open_e = 1;
+
+			if (ray->side == 1)
+			{
+				// Y ekseninde duvar: ray_dir_y > 0 => güney duvar
+				if (ray->ray_dir_y > 0 && has_open_n)
+					tex = &game->tex_do;
+				else if (ray->ray_dir_y < 0)
+					tex = get_wall_texture(game, ray);
+				else
+					tex = get_wall_texture(game, ray);
+			}
+			else
+			{
+				// X ekseninde duvar: ray_dir_x < 0 => batı duvar
+				if (ray->ray_dir_x < 0 && has_open_e)
+					tex = &game->tex_do;
+				else
+					tex = get_wall_texture(game, ray);
+			}
+		}
+		else
+			tex = get_wall_texture(game, ray);
+	}
 	else
 		tex = get_wall_texture(game, ray);
 	if (ray->side == 0)

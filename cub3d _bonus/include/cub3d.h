@@ -130,6 +130,7 @@ char	get_map_char(t_game *game, int x, int y);
 int		is_walkable(char c);
 int		validate_map(t_game *game);
 int		validate_map_walls(t_game *game);
+int	validate_map_doors(t_game *game);
 void	write_number(int n);
 int		validate_map_closed(t_game *game);
 int		init_graphics(t_game *game);

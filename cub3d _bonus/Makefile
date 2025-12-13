@@ -21,6 +21,7 @@ SRCS = main.c \
        src/parser/parse_player.c \
        src/validation/map_validation.c \
        src/validation/map_validation_walls.c \
+       src/validation/map_validation_doors.c \
        src/validation/map_validation_closed.c \
        get_next_line/get_next_line.c \
        get_next_line/get_next_line_utils.c

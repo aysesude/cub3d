@@ -60,6 +60,8 @@ int	validate_map(t_game *game)
 		return (-1);
 	if (validate_map_walls(game) == -1)
 		return (-1);
+	if (validate_map_doors(game) == -1)
+		return (-1);
 	if (validate_map_closed(game) == -1)
 		return (-1);
 	return (0);
