@@ -28,7 +28,8 @@ static int	is_wall(t_game *game, double x, double y)
 		return (1);
 	if (map_x >= (int)ft_strlen(game->map->grid[map_y]))
 		return (1);
-	return (game->map->grid[map_y][map_x] == '1');
+	return (game->map->grid[map_y][map_x] == '1' ||
+		game->map->grid[map_y][map_x] == 'D'); // 'o' (open door) geçilebilir
 }
 
 /* Oyuncunun etrafındaki 4 köşeyi kontrol et */
@@ -186,6 +187,39 @@ int	init_graphics(t_game *game)
 
 static int	render_frame(t_game *game)
 {
+	// Kapılara otomatik aç/kapa mantığı:
+	// - 2 kare (tile) mesafede ise 'D' => 'o' (açık kapı)
+	// - Uzaklaşınca 'o' => 'D' (kapalı kapı), oyuncu üstündeyse kapatma
+	int px = (int)game->player->x;
+	int py = (int)game->player->y;
+	int y;
+	int x;
+	for (y = py - 2; y <= py + 2; y++)
+	{
+		if (y < 0 || y >= game->map->height)
+			continue;
+		for (x = px - 2; x <= px + 2; x++)
+		{
+			if (x < 0 || x >= (int)ft_strlen(game->map->grid[y]))
+				continue;
+			if (game->map->grid[y][x] == 'D' || game->map->grid[y][x] == 'o')
+			{
+				double cx = x + 0.5;
+				double cy = y + 0.5;
+				double dx = game->player->x - cx;
+				double dy = game->player->y - cy;
+				double dist = sqrt(dx * dx + dy * dy);
+				if (dist <= 2.0 && game->map->grid[y][x] == 'D')
+					game->map->grid[y][x] = 'o';
+				else if (dist > 2.0 && game->map->grid[y][x] == 'o')
+				{
+					// Oyuncu kapının üstündeyken kapatma
+					if (!(px == x && py == y))
+						game->map->grid[y][x] = 'D';
+				}
+			}
+		}
+	}
 	render_3d(game);
 	// render_mini_map(game);
 	return (0);
