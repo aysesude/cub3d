@@ -1,0 +1,56 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build cub3d bonus",
+			"type": "shell",
+			"command": "make -C \"cub3d _bonus\"",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "build cub3d bonus",
+			"type": "shell",
+			"command": "make -C \"cub3d _bonus\"",
+			"args": [],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "build cub3d bonus",
+			"type": "shell",
+			"command": "make -C \"cub3d _bonus\"",
+			"args": [],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "build cub3d bonus",
+			"type": "shell",
+			"command": "make -C \"cub3d _bonus\"",
+			"args": [],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "build cub3d bonus",
+			"type": "shell",
+			"command": "make -C \"cub3d _bonus\"",
+			"args": [],
+			"isBackground": false,
+			"group": "build"
+		},
+		{
+			"label": "build cub3d bonus",
+			"type": "shell",
+			"command": "make -C \"cub3d _bonus\"",
+			"args": [],
+			"isBackground": false,
+			"group": "build"
+		}
+	]
+}
