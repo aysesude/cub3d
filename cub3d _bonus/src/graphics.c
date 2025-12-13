@@ -221,7 +221,7 @@ static int	render_frame(t_game *game)
 		}
 	}
 	render_3d(game);
-	// render_mini_map(game);
+	render_mini_map(game);
 	return (0);
 }
 

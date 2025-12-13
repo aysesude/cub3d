@@ -31,8 +31,8 @@
 #  define M_PI 3.14159265358979323846
 # endif
 
-# define WIN_WIDTH 2048
-# define WIN_HEIGHT 1024
+# define WIN_WIDTH 1024
+# define WIN_HEIGHT 576
 
 typedef struct s_player
 {
