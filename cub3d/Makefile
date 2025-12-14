@@ -12,8 +12,12 @@ SRCS = main.c \
        src/init_game.c \
        src/utils.c \
        src/graphics.c \
-       src/draw_minimap.c \
+       src/input.c \
+       src/movement.c \
+       src/movement2.c \
        src/draw_3d_map.c \
+       src/texture.c \
+       src/raycasting.c \
        src/parser/parse_file.c \
        src/parser/parse_utils.c \
        src/parser/parse_texture.c \

@@ -6,7 +6,7 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:29:43 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 11:31:02 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/14 17:42:15 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,16 @@ typedef struct s_ray
 	int		draw_end;
 }	t_ray;
 
+typedef struct s_keys
+{
+	int	w;
+	int	s;
+	int	a;
+	int	d;
+	int	left;
+	int	right;
+}	t_keys;
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -103,6 +113,7 @@ typedef struct s_game
 	t_texture	tex_so;
 	t_texture	tex_we;
 	t_texture	tex_ea;
+	t_keys		keys;
 }	t_game;
 
 t_game	*init_game(void);
@@ -140,5 +151,20 @@ char	*get_next_line(int fd);
 void	render_3d(t_game *game);
 int		load_textures(t_game *game);
 int		get_texture_color(t_texture *tex, int x, int y);
+void	init_ray(t_game *game, t_ray *ray, int x);
+void	calc_step_and_side_dist(t_game *game, t_ray *ray);
+void	perform_dda(t_game *game, t_ray *ray);
+void	calc_wall_height(t_game *game, t_ray *ray);
+t_texture	*get_wall_texture(t_game *game, t_ray *ray);
+int		can_move(t_game *game, double x, double y);
+void	move_forward(t_game *game);
+void	move_backward(t_game *game);
+void	move_left(t_game *game);
+void	move_right(t_game *game);
+void	rotate_left(t_game *game);
+void	rotate_right(t_game *game);
+void	handle_movement(t_game *game);
+int		key_release(int keycode, t_game *game);
+int		key_press(int keycode, t_game *game);
 
 #endif
