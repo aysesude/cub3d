@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:53 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 03:14:46 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/14 15:48:32 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,26 @@ t_game	*init_game(void)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (NULL);
+	
+	// MLX pointerları
 	game->mlx = NULL;
 	game->win = NULL;
 	game->img = NULL;
 	game->addr = NULL;
+	
+	game->tex_no.img = NULL;
+	game->tex_so.img = NULL;
+	game->tex_we.img = NULL;
+	game->tex_ea.img = NULL;
+	
+	// Map ve player
 	game->map = init_map();
 	if (!game->map)
 	{
 		free(game);
 		return (NULL);
 	}
+	
 	game->player = init_player();
 	if (!game->player)
 	{
@@ -71,5 +81,6 @@ t_game	*init_game(void)
 		free(game);
 		return (NULL);
 	}
+	
 	return (game);
 }

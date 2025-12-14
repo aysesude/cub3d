@@ -19,6 +19,7 @@ int main(int argc, char **argv)
     
     if (parse_map(game, argv[1]) == -1)
     {
+        get_next_line(-1);
         cleanup_game(game);
         return (1);
     }
@@ -26,12 +27,14 @@ int main(int argc, char **argv)
     /* Map validation */
     if (validate_map(game) == -1)
     {
+        get_next_line(-1);
         cleanup_game(game);
         return (1);
     }
     
     if (init_graphics(game) == -1)
     {
+        get_next_line(-1);
         cleanup_game(game);
         return (1);
     }
