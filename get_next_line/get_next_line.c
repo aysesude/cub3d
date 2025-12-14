@@ -6,7 +6,7 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:52:29 by aycami            #+#    #+#             */
-/*   Updated: 2024/12/03 20:50:38 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/14 15:07:37 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,12 @@ char	*rest_lines(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	rest = ft_substr(str, i + 1, ft_strlen(str + i));
+	if (str[i] == '\0')
+	{
+		free(str);
+		return (NULL);
+	}
+	rest = ft_substr(str, i + 1, ft_strlen(str) - i - 1);
 	free(str);
 	return (rest);
 }
