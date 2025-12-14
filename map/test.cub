@@ -1,7 +1,7 @@
-NO ./textures/prison.xpm
-SO ./textures/prison.xpm
-WE ./textures/prison.xpm
-EA ./textures/prison.xpm
+NO ./textures/e.xpm
+SO ./textures/e.xpm
+WE ./textures/e.xpm
+EA ./textures/e.xpm
 
 F 220,100,0
 C 225,30,0

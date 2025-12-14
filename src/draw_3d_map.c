@@ -6,7 +6,7 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:41 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 11:48:57 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/14 14:57:55 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,8 @@ static void	draw_column(t_game *game, t_ray *ray, int x)
 		wall_x = game->player->x + ray->perp_wall_dist * ray->ray_dir_x;
 	wall_x -= floor(wall_x);
 	tex_x = (int)(wall_x * (double)tex->width);
-	if ((ray->side == 0 && ray->ray_dir_x > 0)
-		|| (ray->side == 1 && ray->ray_dir_y < 0))
+	if ((ray->side == 0 && ray->ray_dir_x < 0)
+		|| (ray->side == 1 && ray->ray_dir_y > 0))
 		tex_x = tex->width - tex_x - 1;
 	step = 1.0 * tex->height / ray->line_height;
 	tex_pos = (ray->draw_start - WIN_HEIGHT / 2 + ray->line_height / 2) * step;
