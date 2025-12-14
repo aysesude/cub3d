@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:53 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/14 15:48:32 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/14 16:40:11 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,11 @@ t_game	*init_game(void)
 		free(game);
 		return (NULL);
 	}
-	
+	game->keys.w = 0;
+	game->keys.s = 0;
+	game->keys.a = 0;
+	game->keys.d = 0;
+	game->keys.left = 0;
+	game->keys.right = 0;
 	return (game);
 }
