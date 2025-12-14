@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:12:01 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/12 17:39:39 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/14 17:33:09 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,14 @@ void	cleanup_game(t_game *game)
 		free(game->mlx);
 	}
 	free(game);
+}
+
+void	put_pixel(t_game *game, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x < 0 || y < 0 || x >= WIN_WIDTH || y >= WIN_HEIGHT)
+		return ;
+	dst = game->addr + (y * game->line_length + x * (game->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
 }

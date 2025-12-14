@@ -6,7 +6,7 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:53 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/14 16:40:11 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/14 16:50:11 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,24 @@ static t_player	*init_player(void)
 	return (player);
 }
 
+static void	init_keys(t_game *game)
+{
+	game->keys.w = 0;
+	game->keys.s = 0;
+	game->keys.a = 0;
+	game->keys.d = 0;
+	game->keys.left = 0;
+	game->keys.right = 0;
+}
+
+static void	init_textures(t_game *game)
+{
+	game->tex_no.img = NULL;
+	game->tex_so.img = NULL;
+	game->tex_we.img = NULL;
+	game->tex_ea.img = NULL;
+}
+
 t_game	*init_game(void)
 {
 	t_game	*game;
@@ -54,38 +72,17 @@ t_game	*init_game(void)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (NULL);
-	
-	// MLX pointerları
 	game->mlx = NULL;
 	game->win = NULL;
 	game->img = NULL;
 	game->addr = NULL;
-	
-	game->tex_no.img = NULL;
-	game->tex_so.img = NULL;
-	game->tex_we.img = NULL;
-	game->tex_ea.img = NULL;
-	
-	// Map ve player
+	init_textures(game);
 	game->map = init_map();
 	if (!game->map)
-	{
-		free(game);
-		return (NULL);
-	}
-	
+		return (free(game), NULL);
 	game->player = init_player();
 	if (!game->player)
-	{
-		free(game->map);
-		free(game);
-		return (NULL);
-	}
-	game->keys.w = 0;
-	game->keys.s = 0;
-	game->keys.a = 0;
-	game->keys.d = 0;
-	game->keys.left = 0;
-	game->keys.right = 0;
+		return (free(game->map), free(game), NULL);
+	init_keys(game);
 	return (game);
 }
