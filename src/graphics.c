@@ -6,7 +6,7 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:50 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 11:50:18 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/14 15:19:47 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,17 +131,34 @@ int	key_press(int keycode, t_game *game)
 		exit(0);
 	}
 	if (keycode == 119)
-		move_forward(game);
+		game->keys.w = 1;
 	if (keycode == 115)
-		move_backward(game);
+		game->keys.s = 1;
 	if (keycode == 97)
-		move_left(game);
+		game->keys.a = 1;
 	if (keycode == 100)
-		move_right(game);
+		game->keys.d = 1;
 	if (keycode == 65363)
-		rotate_left(game);
+		game->keys.right = 1;
 	if (keycode == 65361)
-		rotate_right(game);
+		game->keys.left = 1;
+	return (0);
+}
+
+static int	key_release(int keycode, t_game *game)
+{
+	if (keycode == 119)
+		game->keys.w = 0;
+	if (keycode == 115)
+		game->keys.s = 0;
+	if (keycode == 97)
+		game->keys.a = 0;
+	if (keycode == 100)
+		game->keys.d = 0;
+	if (keycode == 65363)
+		game->keys.right = 0;
+	if (keycode == 65361)
+		game->keys.left = 0;
 	return (0);
 }
 
@@ -180,12 +197,30 @@ int	init_graphics(t_game *game)
 		return (-1);
 	}
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
+	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->win, 17, 0, close_window, game);
 	return (0);
 }
 
+static void	handle_movement(t_game *game)
+{
+	if (game->keys.w)
+		move_forward(game);
+	if (game->keys.s)
+		move_backward(game);
+	if (game->keys.a)
+		move_left(game);
+	if (game->keys.d)
+		move_right(game);
+	if (game->keys.left)
+		rotate_right(game);
+	if (game->keys.right)
+		rotate_left(game);
+}
+
 static int	render_frame(t_game *game)
 {
+	handle_movement(game);
 	render_3d(game);
 	// render_mini_map(game);
 	return (0);

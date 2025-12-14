@@ -6,7 +6,7 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:29:43 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 11:31:02 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/14 15:19:49 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,16 @@ typedef struct s_ray
 	int		draw_end;
 }	t_ray;
 
+typedef struct s_keys
+{
+	int	w;
+	int	s;
+	int	a;
+	int	d;
+	int	left;
+	int	right;
+}	t_keys;
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -103,6 +113,7 @@ typedef struct s_game
 	t_texture	tex_so;
 	t_texture	tex_we;
 	t_texture	tex_ea;
+	t_keys		keys;
 }	t_game;
 
 t_game	*init_game(void);
