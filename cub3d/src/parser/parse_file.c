@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:25:00 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 11:53:49 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/14 18:09:02 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,21 @@ static int	parse_config_section(t_game *game, int fd, char **first_map_line)
 	}
 }
 
+static void	free_grid(char **grid, int rows)
+{
+	int	i;
+
+	if (!grid)
+		return ;
+	i = 0;
+	while (i < rows)
+	{
+		free(grid[i]);
+		i++;
+	}
+	free(grid);
+}
+
 static char	**add_map_line(char **grid, int rows, char *line)
 {
 	char	**new_grid;
@@ -74,7 +89,10 @@ static char	**add_map_line(char **grid, int rows, char *line)
 
 	new_grid = malloc(sizeof(char *) * (rows + 1));
 	if (!new_grid)
+	{
+		free_grid(grid, rows); 
 		return (NULL);
+	}
 	i = 0;
 	while (i < rows)
 	{
@@ -82,6 +100,12 @@ static char	**add_map_line(char **grid, int rows, char *line)
 		i++;
 	}
 	new_grid[rows] = ft_strdup(line);
+	if (!new_grid[rows])  
+	{
+		free(new_grid);
+		free_grid(grid, rows);
+		return (NULL);
+	}
 	free(grid);
 	return (new_grid);
 }
@@ -96,6 +120,8 @@ static int	parse_map_section(t_game *game, int fd, char *first_line)
 	if (!grid)
 		return (-1);
 	grid[0] = ft_strdup(first_line);
+	if (!grid[0])  
+		return (free(grid), -1);
 	rows = 1;
 	game->map->width = ft_strlen(first_line);
 	while (1)
@@ -104,8 +130,13 @@ static int	parse_map_section(t_game *game, int fd, char *first_line)
 		if (!line)
 			break ;
 		if (!is_map_line(line))
+		{
+			free_grid(grid, rows); 
 			return (free(line), ft_putstr_fd("Error\nInvalid map\n", 2), -1);
+		}
 		grid = add_map_line(grid, rows, line);
+		if (!grid)  
+			return (free(line), ft_putstr_fd("Error\nMemory allocation failed\n", 2), -1);
 		if ((int)ft_strlen(line) > game->map->width)
 			game->map->width = ft_strlen(line);
 		rows++;
