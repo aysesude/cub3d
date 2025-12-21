@@ -18,14 +18,18 @@ SRCS = main.c \
        src/draw_3d_map.c \
        src/texture.c \
        src/raycasting.c \
-       src/parser/parse_file.c \
-       src/parser/parse_utils.c \
+       src/parser/parse_identifiers.c \
+       src/parser/parse_reader.c \
        src/parser/parse_texture.c \
        src/parser/parse_color.c \
        src/parser/parse_player.c \
+       src/parser/parse_map_section.c \
+       src/parser/parse_map_grid.c \
+       src/parser/parse_validation.c \
        src/validation/map_validation.c \
        src/validation/map_validation_walls.c \
        src/validation/map_validation_closed.c \
+       src/validation/map_wall_checker.c \
        get_next_line/get_next_line.c \
        get_next_line/get_next_line_utils.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_validation_closed.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:25:35 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 11:26:33 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/21 19:42:58 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,6 @@ static int	check_surrounded(t_game *game, int x, int y)
 		i++;
 	}
 	return (0);
-}
-
-void	write_number(int n)
-{
-	char	buf[12];
-	int		i;
-
-	i = 0;
-	if (n == 0)
-		buf[i++] = '0';
-	while (n > 0)
-	{
-		buf[i++] = '0' + (n % 10);
-		n /= 10;
-	}
-	buf[i] = '\0';
-	while (--i >= 0)
-		write(2, &buf[i], 1);
 }
 
 static void	print_position_error(int x, int y)
