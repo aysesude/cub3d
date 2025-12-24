@@ -6,11 +6,11 @@
 /*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 19:51:54 by raktas            #+#    #+#             */
-/*   Updated: 2025/12/21 19:51:55 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/24 15:44:17 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "include/cub3d.h"
 
 static int	validate_arguments(int argc)
 {

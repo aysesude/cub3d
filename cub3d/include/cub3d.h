@@ -6,7 +6,7 @@
 /*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:29:43 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/21 19:47:51 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/24 15:44:22 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ char	*read_line(int fd);
 int		is_map_line(char *line);
 int		check_file_extension(char *filename);
 int		validate_config(t_game *game);
+int		parse_identifier(t_game *game, char *line);
+int		parse_config_section(t_game *game, int fd, char **first_map_line);
 int		parse_north_texture(t_game *game, char *line);
 int		parse_south_texture(t_game *game, char *line);
 int		parse_west_texture(t_game *game, char *line);
@@ -132,6 +134,11 @@ int		parse_floor_color(t_game *game, char *line);
 int		parse_ceiling_color(t_game *game, char *line);
 int		is_player_char(char c);
 int		find_player(t_game *game);
+char	**init_map_grid(char *first_line);
+int		process_map_line(t_game *game, char ***grid, int *rows, char *line);
+void	free_grid(char **grid, int rows);
+char	**add_map_line(char **grid, int rows, char *line);
+int		parse_map_section(t_game *game, int fd, char *first_line);
 int		is_valid_map_char(char c);
 int		validate_map_chars(t_game *game);
 char	get_map_char(t_game *game, int x, int y);
@@ -140,6 +147,9 @@ int		validate_map(t_game *game);
 int		validate_map_walls(t_game *game);
 void	write_number(int n);
 int		validate_map_closed(t_game *game);
+int		check_first_row(t_game *game);
+int		check_last_row(t_game *game);
+int		check_row_edges(t_game *game, int y);
 int		init_graphics(t_game *game);
 void	game_loop(t_game *game);
 void	render_mini_map(t_game *game);
