@@ -12,6 +12,15 @@
 
 #include "../include/cub3d_bonus.h"
 
+/*
+** cast_single_ray - Minimap'ta verilen yönde bir ışın gönderir ve çarpma noktasını bulur
+** @game: Oyun yapısı
+** @rd: Işının yön vektörü (x, y)
+** @hit: Çarpma noktası (çıktı: x, y, hit flag)
+**
+** DDA algoritması ile ışın haritada ilerler, duvar veya kapıya çarpınca durur.
+** Çarpma yoksa uzun bir mesafeye kadar gider.
+*/
 static void	cast_single_ray(t_game *game, double *rd, double *hit)
 {
 	double	side[5];
@@ -39,6 +48,11 @@ static void	cast_single_ray(t_game *game, double *rd, double *hit)
 	}
 }
 
+/*
+** clamp_to_minimap - Bir noktayı minimap sınırları içinde tutar
+** @mm: Minimap yapısı
+** @p: Nokta koordinatları (x, y)
+*/
 static void	clamp_to_minimap(t_minimap *mm, int *p)
 {
 	int	max_x;
@@ -56,6 +70,13 @@ static void	clamp_to_minimap(t_minimap *mm, int *p)
 		p[1] = max_y;
 }
 
+/*
+** is_inside_minimap - Bir nokta minimap alanı içinde mi kontrol eder
+** @mm: Minimap yapısı
+** @p: Nokta koordinatları (x, y)
+**
+** Döner: 1 ise içeride, 0 ise dışarıda
+*/
 static int	is_inside_minimap(t_minimap *mm, int *p)
 {
 	int	max_x;
@@ -70,6 +91,14 @@ static int	is_inside_minimap(t_minimap *mm, int *p)
 	return (1);
 }
 
+/*
+** draw_single_ray - Minimap'ta tek bir ışını çizer
+** @game: Oyun yapısı
+** @mm: Minimap yapısı
+** @angle: Işının gönderileceği açı (radyan)
+**
+** Işın çarpma noktasına kadar çizilir, çarpma varsa küçük bir daire ile gösterilir.
+*/
 static void	draw_single_ray(t_game *game, t_minimap *mm, double angle)
 {
 	double	rd[2];
@@ -90,6 +119,13 @@ static void	draw_single_ray(t_game *game, t_minimap *mm, double angle)
 	draw_line(game, p0, p1, COLOR_RAY);
 }
 
+/*
+** draw_minimap_rays - Minimap'ta oyuncunun görüş açısındaki tüm ışınları çizer
+** @game: Oyun yapısı
+** @mm: Minimap yapısı
+**
+** Oyuncunun görüş açısı aralığında (örn. -33° ile +33°) belirli aralıklarla ışın gönderir.
+*/
 void	draw_minimap_rays(t_game *game, t_minimap *mm)
 {
 	double	base;

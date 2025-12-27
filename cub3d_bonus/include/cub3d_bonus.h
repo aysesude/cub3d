@@ -32,6 +32,13 @@
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 720
 # define MINIMAP_SIZE 256
+/*
+** MINIMAP_SIZE: Minimap'in toplam piksel boyutu (kare, px cinsinden)
+** MINIMAP_VIEW: Minimap'ta gösterilecek harita kutucuk sayisi (örn. 12x12)
+** MINIMAP_TILE: Her bir kutucugun piksel boyutu (örn. 21px)
+**
+** Minimap, oyun ekraninin sol alt köşesinde, oyuncunun etrafini gösterecek sekilde çizilir.
+*/
 # define MINIMAP_VIEW 12
 # define MINIMAP_TILE 21
 # define MOVE_SPEED 0.15

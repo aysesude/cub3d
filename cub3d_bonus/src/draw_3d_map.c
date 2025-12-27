@@ -12,6 +12,18 @@
 
 #include "../include/cub3d_bonus.h"
 
+/*
+** calc_tex_x - Duvar texture'ında hangi x koordinatının kullanılacağını hesaplar
+** @ray: O anki ışın bilgisi
+** @tex: Kullanılacak texture
+** @player: Oyuncu bilgisi
+**
+** Duvarın vurulduğu noktayı (wall_x) bulur, texture genişliğiyle çarparak
+** hangi sütunun çizileceğini belirler. Duvarın hangi yüzüne çarptığına göre
+** texture'ın ters çevrilmesi gerekebilir.
+**
+** Döner: Texture'ın x koordinatı (int)
+*/
 static int	calc_tex_x(t_ray *ray, t_texture *tex, t_player *player)
 {
 	double	wall_x;
@@ -29,6 +41,16 @@ static int	calc_tex_x(t_ray *ray, t_texture *tex, t_player *player)
 	return (tex_x);
 }
 
+/*
+** draw_wall_texture - Bir duvar sütununu texture ile çizer
+** @game: Oyun yapısı
+** @ray: O anki ışın bilgisi
+** @x: Ekranda çizilecek sütun (piksel)
+** @tex: Kullanılacak duvar texture'ı
+**
+** Dikey olarak duvarın üstünden altına kadar (draw_start -> draw_end)
+** texture'ın uygun y koordinatını hesaplar ve ekrana çizer.
+*/
 static void	draw_wall_texture(t_game *game, t_ray *ray, int x, t_texture *tex)
 {
 	int		y;
@@ -50,6 +72,16 @@ static void	draw_wall_texture(t_game *game, t_ray *ray, int x, t_texture *tex)
 	}
 }
 
+/*
+** draw_column - Ekrandaki bir sütunu (x) çizer: tavan, duvar, zemin
+** @game: Oyun yapısı
+** @ray: O anki ışın bilgisi
+** @x: Ekranda çizilecek sütun (piksel)
+**
+** 1. draw_start'a kadar tavan rengini çizer
+** 2. draw_wall_texture ile duvarı çizer (kapı varsa kapı texture'ı)
+** 3. draw_end'den sonra zemin rengini çizer
+*/
 static void	draw_column(t_game *game, t_ray *ray, int x)
 {
 	int			y;
@@ -71,6 +103,29 @@ static void	draw_column(t_game *game, t_ray *ray, int x)
 	}
 }
 
+/*
+** render_3d - 3D raycasting motorunun ana fonksiyonu (EN AYRINTILI AÇIKLAMA)
+** @game: Oyun yapısı
+**
+** Ekranın her sütunu (x) için bir ışın gönderir ve duvarları çizer.
+**
+** 1. Döngü: x = 0'dan WIN_WIDTH'e kadar (her piksel sütun için)
+**    a. init_ray: Işının yönünü ve harita üzerindeki başlangıç noktasını hesaplar
+**    b. calc_step_and_side_dist: DDA algoritması için adım ve ilk mesafeleri ayarlar
+**    c. perform_dda: DDA (Digital Differential Analyzer) ile ışın haritada ilerler,
+**       ilk duvara veya kapıya çarpana kadar grid hücrelerinde adım atar
+**    d. calc_wall_height: Duvara olan dik mesafeyi ve ekranda çizilecek yükseklikleri hesaplar
+**    e. draw_column: O sütunu (tavan, duvar, zemin) çizer
+**
+** Raycasting algoritması:
+** - Her sütun için oyuncunun bakış açısına göre bir ışın gönderilir
+** - Işın harita gridinde DDA ile ilerler, duvar veya kapı bulana kadar
+** - Duvara çarpınca mesafe hesaplanır, perspektif düzeltmesi yapılır
+** - Texture mapping ile duvarın doğru kısmı ekrana çizilir
+** - Kapı varsa get_door_texture ile kapı texture'ı kullanılır
+**
+** Son olarak, çizilen görüntü MLX ile pencereye basılır
+*/
 void	render_3d(t_game *game)
 {
 	int		x;

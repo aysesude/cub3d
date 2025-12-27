@@ -12,6 +12,18 @@
 
 #include "../include/cub3d_bonus.h"
 
+/*
+** init_map - Harita yapisini olusturur ve sifirlar
+**
+** Yeni bir t_map yapisi ayirir ve tüm alanlarini
+** varsayilan degerlerle baslatir:
+** - grid: NULL (harita dizisi)
+** - width/height: 0 (boyutlar)
+** - texture yollari: NULL (NO, SO, WE, EA, DO)
+** - floor_color/ceiling_color: -1 (henüz ayarlanmadi)
+**
+** Basarili ise t_map pointer, hata durumunda NULL döner
+*/
 static t_map	*init_map(void)
 {
 	t_map	*map;
@@ -32,6 +44,19 @@ static t_map	*init_map(void)
 	return (map);
 }
 
+/*
+** init_player - Oyuncu yapisini olusturur ve sifirlar
+**
+** Yeni bir t_player yapisi ayirir ve varsayilan degerlerle baslatir:
+** - x, y: 0 (pozisyon, daha sonra haritadan ayarlanir)
+** - dir_x: -1, dir_y: 0 (varsayilan bakis yönü: Kuzey)
+** - plane_x: 0, plane_y: 0.65 (kamera düzlemi, FOV için)
+**
+** Kamera düzlemi bakis vektörüne diktir ve
+** görüs alanini (FOV ~66 derece) belirler
+**
+** Basarili ise t_player pointer, hata durumunda NULL döner
+*/
 static t_player	*init_player(void)
 {
 	t_player	*player;
@@ -48,6 +73,17 @@ static t_player	*init_player(void)
 	return (player);
 }
 
+/*
+** init_keys - Klavye durumunu sifirlar
+** @game: Oyun yapisi
+**
+** Tüm hareket tuslarinin durumunu 0 (basilmadi) olarak ayarlar:
+** - w: ileri, s: geri
+** - a: sol strafe, d: sag strafe
+** - left/right: saga/sola dönüs
+**
+** Bu degerler key_press/key_release ile güncellenir
+*/
 static void	init_keys(t_game *game)
 {
 	game->keys.w = 0;
@@ -58,6 +94,19 @@ static void	init_keys(t_game *game)
 	game->keys.right = 0;
 }
 
+/*
+** init_textures - Texture yapilarini sifirlar
+** @game: Oyun yapisi
+**
+** Tüm texture img pointerlarini NULL olarak ayarlar:
+** - tex_no: Kuzey duvari textureü
+** - tex_so: Güney duvari textureü
+** - tex_we: Bati duvari textureü
+** - tex_ea: Dogu duvari textureü
+** - tex_do: Kapi textureü (bonus)
+**
+** Gerçek textureler load_textures ile yüklenir
+*/
 static void	init_textures(t_game *game)
 {
 	game->tex_no.img = NULL;
@@ -67,6 +116,22 @@ static void	init_textures(t_game *game)
 	game->tex_do.img = NULL;
 }
 
+/*
+** init_game - Ana oyun yapisini olusturur ve baslatir
+**
+** Tüm oyun bilesenlerini ayirir ve baslatir:
+** 1. t_game yapisi için bellek ayir
+** 2. MLX pointerlarini NULL yap (mlx, win, img, addr)
+** 3. init_textures ile texture yapilarini sifirla
+** 4. init_map ile harita yapisini olustur
+** 5. init_player ile oyuncu yapisini olustur
+** 6. init_keys ile klavye durumunu sifirla
+**
+** Herhangi bir ayirma basarisiz olursa,
+** önceki ayirmalari temizler ve NULL döner
+**
+** Basarili ise t_game pointer döner
+*/
 t_game	*init_game(void)
 {
 	t_game	*game;

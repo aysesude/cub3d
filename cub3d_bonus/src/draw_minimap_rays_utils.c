@@ -12,6 +12,16 @@
 
 #include "../include/cub3d_bonus.h"
 
+/*
+** init_ray_dda - Minimap için DDA algoritması başlangıç değerlerini ayarlar
+** @game: Oyun yapısı
+** @rd: Işının yön vektörü (x, y)
+** @side: DDA için ilk yan mesafeler ve yönler
+** @delta: DDA için x ve y ekseninde bir grid ilerlemek için gereken mesafe
+**
+** DDA (Digital Differential Analyzer) algoritmasında, ışının gridde hangi
+** hücreye ilk önce çarpacağını bulmak için başlangıç mesafeleri ve adımlar hesaplanır.
+*/
 void	init_ray_dda(t_game *game, double *rd, double *side, double *delta)
 {
 	int	map[2];
@@ -36,6 +46,16 @@ void	init_ray_dda(t_game *game, double *rd, double *side, double *delta)
 		side[1] = (map[1] + 1.0 - game->player->y) * delta[1];
 }
 
+/*
+** check_ray_hit - DDA sırasında ışının bir duvara veya kapıya çarpıp çarpmadığını kontrol eder
+** @game: Oyun yapısı
+** @map: Kontrol edilecek grid koordinatları (x, y)
+**
+** Döner:
+** -1: Harita dışı
+**  1: Duvar ('1') veya kapalı kapı ('D')
+**  0: Boşluk veya açık kapı
+*/
 int	check_ray_hit(t_game *game, int *map)
 {
 	char	cell;
@@ -50,6 +70,16 @@ int	check_ray_hit(t_game *game, int *map)
 	return (0);
 }
 
+/*
+** ray_dda_step - DDA algoritmasında bir adım atar ve hangi eksende ilerlediğini döner
+** @map: Mevcut grid koordinatları (x, y)
+** @side: DDA için yan mesafeler ve yönler
+** @delta: DDA için x ve y ekseninde bir grid ilerlemek için gereken mesafe
+**
+** Döner:
+** 0: X ekseninde adım atıldı
+** 1: Y ekseninde adım atıldı
+*/
 int	ray_dda_step(int *map, double *side, double *delta)
 {
 	int		step[2];
@@ -72,11 +102,27 @@ int	ray_dda_step(int *map, double *side, double *delta)
 	return (ret);
 }
 
+/*
+** deg_to_rad - Dereceyi radyana çevirir
+** @deg: Derece cinsinden açı
+**
+** Döner: Radyan cinsinden açı (double)
+*/
 double	deg_to_rad(double deg)
 {
 	return (deg * (M_PI / 180.0));
 }
 
+/*
+** calc_hit_point - DDA sonunda ışının duvara çarptığı noktayı hesaplar
+** @game: Oyun yapısı
+** @rd: Işının yön vektörü (x, y)
+** @hit: Sonuç olarak çarpılan noktanın koordinatları (x, y, hit flag)
+** @side: DDA yan mesafeleri ve hangi eksende çarpıldığı bilgisi
+**
+** DDA algoritması sonunda, ışının duvara çarptığı gerçek dünya koordinatını hesaplar.
+** hit[2] = 1 ise çarpma var, 0 ise yok.
+*/
 void	calc_hit_point(t_game *game, double *rd, double *hit, double *side)
 {
 	double	perp;
