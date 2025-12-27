@@ -12,7 +12,6 @@
 
 #include "../../include/cub3d_bonus.h"
 
-/* Stringden 1 RGB number parse et */
 static int	parse_single_rgb(char *str, int *i)
 {
 	int	num;
@@ -32,7 +31,6 @@ static int	parse_single_rgb(char *str, int *i)
 	return (num);
 }
 
-/* RGB stringi color integer donustur */
 static int	rgb_to_color(int r, int g, int b)
 {
 	return ((r << 16) | (g << 8) | b);

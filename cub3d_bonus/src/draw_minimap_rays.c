@@ -12,9 +12,6 @@
 
 #include "../include/cub3d_bonus.h"
 
-#define COLOR_RAY 0xAAAAAA
-#define COLOR_HIT 0xFF0000
-
 static void	cast_single_ray(t_game *game, double *rd, double *hit)
 {
 	double	side[5];

@@ -72,6 +72,11 @@ int	ray_dda_step(int *map, double *side, double *delta)
 	return (ret);
 }
 
+double	deg_to_rad(double deg)
+{
+	return (deg * (M_PI / 180.0));
+}
+
 void	calc_hit_point(t_game *game, double *rd, double *hit, double *side)
 {
 	double	perp;

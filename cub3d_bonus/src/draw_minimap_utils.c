@@ -97,8 +97,3 @@ void	draw_line(t_game *game, int *p0, int *p1, int color)
 		draw_line_step(pos, delta, err);
 	}
 }
-
-double	deg_to_rad(double deg)
-{
-	return (deg * (M_PI / 180.0));
-}

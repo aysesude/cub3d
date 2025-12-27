@@ -22,8 +22,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
-# include <string.h>
-# include <errno.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/libft.h"
 
@@ -36,6 +34,16 @@
 # define MINIMAP_SIZE 256
 # define MINIMAP_VIEW 12
 # define MINIMAP_TILE 21
+# define MOVE_SPEED 0.15
+# define ROT_SPEED 0.13962634
+# define COLLISION_DIST 0.2
+# define COLOR_WALL 0x555555
+# define COLOR_DOOR 0x996633
+# define COLOR_DOOR_OPEN 0xcc9966
+# define COLOR_PLAYER 0x00ff00
+# define COLOR_BG 0x222222
+# define COLOR_RAY 0xaaaaaa
+# define COLOR_HIT 0xff0000
 
 typedef struct s_minimap
 {
@@ -132,63 +140,67 @@ typedef struct s_game
 	t_keys		keys;
 }	t_game;
 
-t_game	*init_game(void);
-void	cleanup_game(t_game *game);
-int		parse_map(t_game *game, char *filename);
-char	*read_line(int fd);
-int		is_map_line(char *line);
-int		check_file_extension(char *filename);
-int		validate_config(t_game *game);
-int		parse_north_texture(t_game *game, char *line);
-int		parse_south_texture(t_game *game, char *line);
-int		parse_west_texture(t_game *game, char *line);
-int		parse_east_texture(t_game *game, char *line);
-int		parse_door_texture(t_game *game, char *line);
-int		parse_rgb(char *str);
-int		parse_floor_color(t_game *game, char *line);
-int		parse_ceiling_color(t_game *game, char *line);
-int		is_player_char(char c);
-int		find_player(t_game *game);
-int		is_valid_map_char(char c);
-int		validate_map_chars(t_game *game);
-char	get_map_char(t_game *game, int x, int y);
-int		is_walkable(char c);
-int		validate_map(t_game *game);
-int		validate_map_walls(t_game *game);
-int	validate_map_doors(t_game *game);
-void	write_number(int n);
-int		validate_map_closed(t_game *game);
-int		init_graphics(t_game *game);
-void	game_loop(t_game *game);
-void	render_mini_map(t_game *game);
-void	put_pixel(t_game *game, int x, int y, int color);
-void	draw_line(t_game *game, int *p0, int *p1, int color);
-void	draw_circle(t_game *game, int *center, int r, int color);
-void	draw_square(t_game *game, int *pos, int size, int color);
-void	draw_minimap_rays(t_game *game, t_minimap *mm);
-void	init_ray_dda(t_game *game, double *rd, double *side, double *delta);
-int		check_ray_hit(t_game *game, int *map);
-int		ray_dda_step(int *map, double *side, double *delta);
-void	calc_hit_point(t_game *game, double *rd, double *hit, double *side);
-double	deg_to_rad(double deg);
-char	*get_next_line(int fd);
-void	render_3d(t_game *game);
-int		load_textures(t_game *game);
-int		get_texture_color(t_texture *tex, int x, int y);
-void	init_ray(t_game *game, t_ray *ray, int x);
-void	calc_step_and_side_dist(t_game *game, t_ray *ray);
-void	perform_dda(t_game *game, t_ray *ray);
-void	calc_wall_height(t_game *game, t_ray *ray);
+t_game		*init_game(void);
+void		cleanup_game(t_game *game);
+int			parse_map(t_game *game, char *filename);
+char		*read_line(int fd);
+int			is_map_line(char *line);
+int			check_file_extension(char *filename);
+int			validate_config(t_game *game);
+int			parse_north_texture(t_game *game, char *line);
+int			parse_south_texture(t_game *game, char *line);
+int			parse_west_texture(t_game *game, char *line);
+int			parse_east_texture(t_game *game, char *line);
+int			parse_door_texture(t_game *game, char *line);
+int			check_texture_path(char *path);
+int			parse_map_section(t_game *game, int fd, char *first_line);
+int			parse_rgb(char *str);
+int			parse_floor_color(t_game *game, char *line);
+int			parse_ceiling_color(t_game *game, char *line);
+int			is_player_char(char c);
+int			find_player(t_game *game);
+int			is_valid_map_char(char c);
+int			validate_map_chars(t_game *game);
+char		get_map_char(t_game *game, int x, int y);
+int			is_walkable(char c);
+int			validate_map(t_game *game);
+int			validate_map_walls(t_game *game);
+int			validate_map_doors(t_game *game);
+void		write_number(int n);
+int			validate_map_closed(t_game *game);
+int			init_graphics(t_game *game);
+void		game_loop(t_game *game);
+void		render_mini_map(t_game *game);
+void		put_pixel(t_game *game, int x, int y, int color);
+void		draw_line(t_game *game, int *p0, int *p1, int color);
+void		draw_circle(t_game *game, int *center, int r, int color);
+void		draw_square(t_game *game, int *pos, int size, int color);
+void		draw_minimap_rays(t_game *game, t_minimap *mm);
+void		init_ray_dda(t_game *game, double *rd, double *side, double *delta);
+int			check_ray_hit(t_game *game, int *map);
+int			ray_dda_step(int *map, double *side, double *delta);
+void		calc_hit_point(t_game *game, double *rd, double *hit, double *side);
+double		deg_to_rad(double deg);
+char		*get_next_line(int fd);
+void		render_3d(t_game *game);
+int			load_textures(t_game *game);
+int			get_texture_color(t_texture *tex, int x, int y);
+void		init_ray(t_game *game, t_ray *ray, int x);
+void		calc_step_and_side_dist(t_game *game, t_ray *ray);
+void		perform_dda(t_game *game, t_ray *ray);
+void		calc_wall_height(t_game *game, t_ray *ray);
 t_texture	*get_wall_texture(t_game *game, t_ray *ray);
-int		can_move(t_game *game, double x, double y);
-void	move_forward(t_game *game);
-void	move_backward(t_game *game);
-void	move_left(t_game *game);
-void	move_right(t_game *game);
-void	rotate_left(t_game *game);
-void	rotate_right(t_game *game);
-void	handle_movement(t_game *game);
-int		key_release(int keycode, t_game *game);
-int		key_press(int keycode, t_game *game);
+t_texture	*get_door_texture(t_game *game, t_ray *ray);
+void		handle_doors(t_game *game);
+int			can_move(t_game *game, double x, double y);
+void		move_forward(t_game *game);
+void		move_backward(t_game *game);
+void		move_left(t_game *game);
+void		move_right(t_game *game);
+void		rotate_left(t_game *game);
+void		rotate_right(t_game *game);
+void		handle_movement(t_game *game);
+int			key_release(int keycode, t_game *game);
+int			key_press(int keycode, t_game *game);
 
 #endif

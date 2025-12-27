@@ -11,11 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/cub3d_bonus.h"
-#include <math.h>
-
-#define MOVE_SPEED 0.15
-#define ROT_SPEED 0.13962634
-#define COLLISION_DIST 0.2
 
 static int	is_wall(t_game *game, double x, double y)
 {

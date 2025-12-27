@@ -11,10 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/cub3d_bonus.h"
-#include <math.h>
-
-#define MOVE_SPEED 0.15
-#define ROT_SPEED 0.13962634
 
 void	move_left(t_game *game)
 {

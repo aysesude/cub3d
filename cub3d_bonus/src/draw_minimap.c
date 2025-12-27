@@ -12,12 +12,6 @@
 
 #include "../include/cub3d_bonus.h"
 
-#define COLOR_WALL 0x555555
-#define COLOR_DOOR 0x996633
-#define COLOR_DOOR_OPEN 0xCC9966
-#define COLOR_PLAYER 0x00FF00
-#define COLOR_BG 0x222222
-
 static void	init_minimap(t_game *game, t_minimap *mm)
 {
 	int	half;
