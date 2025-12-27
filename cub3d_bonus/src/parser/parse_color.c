@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "../../include/cub3d_bonus.h"
 
 /* Stringden 1 RGB number parse et */
 static int	parse_single_rgb(char *str, int *i)

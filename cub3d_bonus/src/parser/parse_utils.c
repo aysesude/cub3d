@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "../../include/cub3d_bonus.h"
 
 char	*read_line(int fd)
 {
@@ -35,7 +35,8 @@ int	is_map_line(char *line)
 	has_content = 0;
 	while (line[i])
 	{
-		if (line[i] == '1' || line[i] == '0' || line[i] == 'D' || is_player_char(line[i]))
+		if (line[i] == '1' || line[i] == '0'
+			|| line[i] == 'D' || is_player_char(line[i]))
 			has_content = 1;
 		else if (line[i] != ' ' && line[i] != '\t')
 			return (0);
@@ -70,7 +71,6 @@ int	validate_config(t_game *game)
 		return (ft_putstr_fd("Error\nMissing floor color\n", 2), -1);
 	if (game->map->ceiling_color == -1)
 		return (ft_putstr_fd("Error\nMissing ceiling color\n", 2), -1);
-	// Door texture is optional; only required if 'D' appears in map
 	return (0);
 }
 

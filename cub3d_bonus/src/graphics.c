@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../include/cub3d_bonus.h"
 
 int	close_window(t_game *game)
 {
@@ -40,49 +40,46 @@ int	init_graphics(t_game *game)
 	return (0);
 }
 
-static void	check_door_dist(t_game *game, int x, int y, int px, int py)
+static void	check_door_dist(t_game *game, int x, int y, int *p)
 {
-	double	cx;
-	double	cy;
-	double	dx;
-	double	dy;
+	double	c[2];
+	double	d[2];
 	double	dist;
 
 	if (game->map->grid[y][x] != 'D' && game->map->grid[y][x] != 'o')
 		return ;
-	cx = x + 0.5;
-	cy = y + 0.5;
-	dx = game->player->x - cx;
-	dy = game->player->y - cy;
-	dist = sqrt(dx * dx + dy * dy);
+	c[0] = x + 0.5;
+	c[1] = y + 0.5;
+	d[0] = game->player->x - c[0];
+	d[1] = game->player->y - c[1];
+	dist = sqrt(d[0] * d[0] + d[1] * d[1]);
 	if (dist <= 2.0 && game->map->grid[y][x] == 'D')
 		game->map->grid[y][x] = 'o';
 	else if (dist > 2.0 && game->map->grid[y][x] == 'o')
 	{
-		if (!(px == x && py == y))
+		if (!(p[0] == x && p[1] == y))
 			game->map->grid[y][x] = 'D';
 	}
 }
 
 static void	handle_doors(t_game *game)
 {
-	int	px;
-	int	py;
+	int	p[2];
 	int	y;
 	int	x;
 
-	px = (int)game->player->x;
-	py = (int)game->player->y;
-	y = py - 2;
-	while (y <= py + 2)
+	p[0] = (int)game->player->x;
+	p[1] = (int)game->player->y;
+	y = p[1] - 2;
+	while (y <= p[1] + 2)
 	{
 		if (y >= 0 && y < game->map->height)
 		{
-			x = px - 2;
-			while (x <= px + 2)
+			x = p[0] - 2;
+			while (x <= p[0] + 2)
 			{
 				if (x >= 0 && x < (int)ft_strlen(game->map->grid[y]))
-					check_door_dist(game, x, y, px, py);
+					check_door_dist(game, x, y, p);
 				x++;
 			}
 		}

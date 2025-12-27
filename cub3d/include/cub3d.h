@@ -31,8 +31,8 @@
 #  define M_PI 3.14159265358979323846
 # endif
 
-# define WIN_WIDTH 2048
-# define WIN_HEIGHT 1024
+# define WIN_WIDTH 1280
+# define WIN_HEIGHT 720
 
 typedef struct s_player
 {
@@ -116,65 +116,63 @@ typedef struct s_game
 	t_keys		keys;
 }	t_game;
 
-t_game	*init_game(void);
-void	cleanup_game(t_game *game);
-int		parse_map(t_game *game, char *filename);
-char	*read_line(int fd);
-int		is_map_line(char *line);
-int		check_file_extension(char *filename);
-int		validate_config(t_game *game);
-int		parse_identifier(t_game *game, char *line);
-int		parse_config_section(t_game *game, int fd, char **first_map_line);
-int		parse_north_texture(t_game *game, char *line);
-int		parse_south_texture(t_game *game, char *line);
-int		parse_west_texture(t_game *game, char *line);
-int		parse_east_texture(t_game *game, char *line);
-int		parse_rgb(char *str);
-int		parse_floor_color(t_game *game, char *line);
-int		parse_ceiling_color(t_game *game, char *line);
-int		is_player_char(char c);
-int		find_player(t_game *game);
-char	**init_map_grid(char *first_line);
-int		process_map_line(t_game *game, char ***grid, int *rows, char *line);
-void	free_grid(char **grid, int rows);
-char	**add_map_line(char **grid, int rows, char *line);
-int		parse_map_section(t_game *game, int fd, char *first_line);
-int		is_valid_map_char(char c);
-int		validate_map_chars(t_game *game);
-char	get_map_char(t_game *game, int x, int y);
-int		is_walkable(char c);
-int		validate_map(t_game *game);
-int		validate_map_walls(t_game *game);
-void	write_number(int n);
-int		validate_map_closed(t_game *game);
-int		check_first_row(t_game *game);
-int		check_last_row(t_game *game);
-int		check_row_edges(t_game *game, int y);
-int		init_graphics(t_game *game);
-void	game_loop(t_game *game);
-void	render_mini_map(t_game *game);
-void	put_pixel(t_game *game, int x, int y, int color);
-void	draw_line(t_game *game, int x0, int y0, int x1, int y1, int color);
-void	draw_circle(t_game *game, int cx, int cy, int r, int color);
-double	deg_to_rad(double deg);
-char	*get_next_line(int fd);
-void	render_3d(t_game *game);
-int		load_textures(t_game *game);
-int		get_texture_color(t_texture *tex, int x, int y);
-void	init_ray(t_game *game, t_ray *ray, int x);
-void	calc_step_and_side_dist(t_game *game, t_ray *ray);
-void	perform_dda(t_game *game, t_ray *ray);
-void	calc_wall_height(t_game *game, t_ray *ray);
+t_game		*init_game(void);
+void		cleanup_game(t_game *game);
+int			parse_map(t_game *game, char *filename);
+char		*read_line(int fd);
+int			is_map_line(char *line);
+int			check_file_extension(char *filename);
+int			validate_config(t_game *game);
+int			parse_identifier(t_game *game, char *line);
+int			parse_config_section(t_game *game, int fd, char **first_map_line);
+int			parse_north_texture(t_game *game, char *line);
+int			parse_south_texture(t_game *game, char *line);
+int			parse_west_texture(t_game *game, char *line);
+int			parse_east_texture(t_game *game, char *line);
+int			parse_rgb(char *str);
+int			parse_floor_color(t_game *game, char *line);
+int			parse_ceiling_color(t_game *game, char *line);
+int			is_player_char(char c);
+int			find_player(t_game *game);
+char		**init_map_grid(char *first_line);
+int			process_map_line(t_game *game, char ***grid, int *rows, char *line);
+void		free_grid(char **grid, int rows);
+char		**add_map_line(char **grid, int rows, char *line);
+int			parse_map_section(t_game *game, int fd, char *first_line);
+int			is_valid_map_char(char c);
+int			validate_map_chars(t_game *game);
+char		get_map_char(t_game *game, int x, int y);
+int			is_walkable(char c);
+int			validate_map(t_game *game);
+int			validate_map_walls(t_game *game);
+void		write_number(int n);
+int			validate_map_closed(t_game *game);
+int			check_first_row(t_game *game);
+int			check_last_row(t_game *game);
+int			check_row_edges(t_game *game, int y);
+int			init_graphics(t_game *game);
+void		game_loop(t_game *game);
+void		render_mini_map(t_game *game);
+void		put_pixel(t_game *game, int x, int y, int color);
+double		deg_to_rad(double deg);
+char		*get_next_line(int fd);
+void		render_3d(t_game *game);
+int			load_textures(t_game *game);
+int			get_texture_color(t_texture *tex, int x, int y);
+void		init_ray(t_game *game, t_ray *ray, int x);
+void		calc_step_and_side_dist(t_game *game, t_ray *ray);
+void		perform_dda(t_game *game, t_ray *ray);
+void		calc_wall_height(t_game *game, t_ray *ray);
 t_texture	*get_wall_texture(t_game *game, t_ray *ray);
-int		can_move(t_game *game, double x, double y);
-void	move_forward(t_game *game);
-void	move_backward(t_game *game);
-void	move_left(t_game *game);
-void	move_right(t_game *game);
-void	rotate_left(t_game *game);
-void	rotate_right(t_game *game);
-void	handle_movement(t_game *game);
-int		key_release(int keycode, t_game *game);
-int		key_press(int keycode, t_game *game);
+int			can_move(t_game *game, double x, double y);
+void		move_forward(t_game *game);
+void		move_backward(t_game *game);
+void		move_left(t_game *game);
+void		move_right(t_game *game);
+void		rotate_left(t_game *game);
+void		rotate_right(t_game *game);
+void		handle_movement(t_game *game);
+int			key_release(int keycode, t_game *game);
+int			key_press(int keycode, t_game *game);
 
 #endif

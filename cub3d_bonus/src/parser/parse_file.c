@@ -10,7 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "../../include/cub3d_bonus.h"
+
+static int	parse_texture_id(t_game *game, char *trimmed)
+{
+	if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'N' && trimmed[1] == 'O'
+		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
+		return (parse_north_texture(game, trimmed));
+	if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'S' && trimmed[1] == 'O'
+		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
+		return (parse_south_texture(game, trimmed));
+	if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'W' && trimmed[1] == 'E'
+		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
+		return (parse_west_texture(game, trimmed));
+	if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'E' && trimmed[1] == 'A'
+		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
+		return (parse_east_texture(game, trimmed));
+	if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'D' && trimmed[1] == 'O'
+		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
+		return (parse_door_texture(game, trimmed));
+	if (ft_strlen(trimmed) >= 2 && trimmed[0] == 'F'
+		&& (trimmed[1] == ' ' || trimmed[1] == '\t'))
+		return (parse_floor_color(game, trimmed));
+	if (ft_strlen(trimmed) >= 2 && trimmed[0] == 'C'
+		&& (trimmed[1] == ' ' || trimmed[1] == '\t'))
+		return (parse_ceiling_color(game, trimmed));
+	return (-2);
+}
 
 static int	parse_identifier(t_game *game, char *line)
 {
@@ -20,28 +46,10 @@ static int	parse_identifier(t_game *game, char *line)
 	trimmed = ft_strtrim(line, " \t");
 	if (!trimmed || *trimmed == '\0')
 		return (free(trimmed), 0);
-	if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'N' && trimmed[1] == 'O'
-		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
-		result = parse_north_texture(game, trimmed);
-	else if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'S' && trimmed[1] == 'O'
-		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
-		result = parse_south_texture(game, trimmed);
-	else if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'W' && trimmed[1] == 'E'
-		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
-		result = parse_west_texture(game, trimmed);
-	else if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'E' && trimmed[1] == 'A'
-		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
-		result = parse_east_texture(game, trimmed);
-	else if (ft_strlen(trimmed) >= 3 && trimmed[0] == 'D' && trimmed[1] == 'O'
-		&& (trimmed[2] == ' ' || trimmed[2] == '\t'))
-		result = parse_door_texture(game, trimmed);
-	else if (ft_strlen(trimmed) >= 2 && trimmed[0] == 'F'
-		&& (trimmed[1] == ' ' || trimmed[1] == '\t'))
-		result = parse_floor_color(game, trimmed);
-	else if (ft_strlen(trimmed) >= 2 && trimmed[0] == 'C'
-		&& (trimmed[1] == ' ' || trimmed[1] == '\t'))
-		result = parse_ceiling_color(game, trimmed);
-	else if (is_map_line(trimmed))
+	result = parse_texture_id(game, trimmed);
+	if (result != -2)
+		return (free(trimmed), result);
+	if (is_map_line(trimmed))
 		result = 2;
 	else
 		result = (ft_putstr_fd("Error\nInvalid identifier\n", 2), -1);
@@ -89,10 +97,29 @@ static char	**add_map_line(char **grid, int rows, char *line)
 	return (new_grid);
 }
 
+static int	read_map_lines(t_game *game, int fd, char ***grid, int *rows)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = read_line(fd);
+		if (!line)
+			break ;
+		if (!is_map_line(line))
+			return (free(line), ft_putstr_fd("Error\nInvalid map\n", 2), -1);
+		*grid = add_map_line(*grid, *rows, line);
+		if ((int)ft_strlen(line) > game->map->width)
+			game->map->width = ft_strlen(line);
+		(*rows)++;
+		free(line);
+	}
+	return (0);
+}
+
 static int	parse_map_section(t_game *game, int fd, char *first_line)
 {
 	char	**grid;
-	char	*line;
 	int		rows;
 
 	grid = malloc(sizeof(char *));
@@ -101,19 +128,8 @@ static int	parse_map_section(t_game *game, int fd, char *first_line)
 	grid[0] = ft_strdup(first_line);
 	rows = 1;
 	game->map->width = ft_strlen(first_line);
-	while (1)
-	{
-		line = read_line(fd);
-		if (!line)
-			break ;
-		if (!is_map_line(line))
-			return (free(line), ft_putstr_fd("Error\nInvalid map\n", 2), -1);
-		grid = add_map_line(grid, rows, line);
-		if ((int)ft_strlen(line) > game->map->width)
-			game->map->width = ft_strlen(line);
-		rows++;
-		free(line);
-	}
+	if (read_map_lines(game, fd, &grid, &rows) == -1)
+		return (-1);
 	game->map->grid = grid;
 	game->map->height = rows;
 	return (0);
