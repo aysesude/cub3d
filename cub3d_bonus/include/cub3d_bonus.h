@@ -33,6 +33,20 @@
 
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 720
+# define MINIMAP_SIZE 256
+# define MINIMAP_VIEW 12
+# define MINIMAP_TILE 21
+
+typedef struct s_minimap
+{
+	int		offset_x;
+	int		offset_y;
+	int		start_x;
+	int		start_y;
+	int		tile_size;
+	int		px;
+	int		py;
+}	t_minimap;
 
 typedef struct s_player
 {
@@ -148,8 +162,14 @@ int		init_graphics(t_game *game);
 void	game_loop(t_game *game);
 void	render_mini_map(t_game *game);
 void	put_pixel(t_game *game, int x, int y, int color);
-void	draw_line(t_game *game, int x0, int y0, int x1, int y1, int color);
-void	draw_circle(t_game *game, int cx, int cy, int r, int color);
+void	draw_line(t_game *game, int *p0, int *p1, int color);
+void	draw_circle(t_game *game, int *center, int r, int color);
+void	draw_square(t_game *game, int *pos, int size, int color);
+void	draw_minimap_rays(t_game *game, t_minimap *mm);
+void	init_ray_dda(t_game *game, double *rd, double *side, double *delta);
+int		check_ray_hit(t_game *game, int *map);
+int		ray_dda_step(int *map, double *side, double *delta);
+void	calc_hit_point(t_game *game, double *rd, double *hit, double *side);
 double	deg_to_rad(double deg);
 char	*get_next_line(int fd);
 void	render_3d(t_game *game);

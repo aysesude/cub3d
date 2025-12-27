@@ -49,26 +49,6 @@ static int	check_last_row(t_game *game)
 	return (0);
 }
 
-static int	find_first_char(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] && line[i] == ' ')
-		i++;
-	return (i);
-}
-
-static int	find_last_char(char *line)
-{
-	int	i;
-
-	i = ft_strlen(line) - 1;
-	while (i >= 0 && line[i] == ' ')
-		i--;
-	return (i);
-}
-
 static int	check_row_edges(t_game *game, int y)
 {
 	int		first;
@@ -78,18 +58,16 @@ static int	check_row_edges(t_game *game, int y)
 	line = game->map->grid[y];
 	if (ft_strlen(line) == 0)
 		return (0);
-	first = find_first_char(line);
-	last = find_last_char(line);
+	first = 0;
+	while (line[first] && line[first] == ' ')
+		first++;
+	last = ft_strlen(line) - 1;
+	while (last >= 0 && line[last] == ' ')
+		last--;
 	if (first < (int)ft_strlen(line) && line[first] != '1')
-	{
-		ft_putstr_fd("Error\nRow must start with wall\n", 2);
-		return (-1);
-	}
+		return (ft_putstr_fd("Error\nRow must start with wall\n", 2), -1);
 	if (last >= 0 && line[last] != '1')
-	{
-		ft_putstr_fd("Error\nRow must end with wall\n", 2);
-		return (-1);
-	}
+		return (ft_putstr_fd("Error\nRow must end with wall\n", 2), -1);
 	return (0);
 }
 

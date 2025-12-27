@@ -15,7 +15,10 @@ SRCS = main.c \
        src/input.c \
        src/movement.c \
        src/movement2.c \
+       src/draw_minimap_utils.c \
        src/draw_minimap.c \
+       src/draw_minimap_rays.c \
+       src/draw_minimap_rays_utils.c \
        src/draw_3d_map.c \
        src/texture.c \
        src/raycasting.c \
