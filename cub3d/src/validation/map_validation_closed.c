@@ -6,7 +6,7 @@
 /*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:25:35 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/21 19:42:58 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/28 14:18:19 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ static void	print_position_error(int x, int y)
 	ft_putstr_fd(")\n", 2);
 }
 
-static int	needs_check(char c)
-{
-	return (c == '0' || is_player_char(c));
-}
-
 int	validate_map_closed(t_game *game)
 {
 	int	y;
@@ -62,7 +57,7 @@ int	validate_map_closed(t_game *game)
 		x = 0;
 		while (x < (int)ft_strlen(game->map->grid[y]))
 		{
-			if (needs_check(game->map->grid[y][x]))
+			if (game->map->grid[y][x] == '0')
 			{
 				if (check_surrounded(game, x, y) == -1)
 				{
