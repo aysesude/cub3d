@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:53 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/28 12:28:43 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/28 13:13:47 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static t_player	*init_player(void)
 	player->dir_x = -1;
 	player->dir_y = 0;
 	player->plane_x = 0;
-	player->plane_y = 0.66;
+	player->plane_y = 0.65;
 	return (player);
 }
 
