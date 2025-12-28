@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_3d_map.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:41 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/14 17:42:13 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/28 12:36:28 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ void	render_3d(t_game *game)
 	int		x;
 	t_ray	ray;
 
-	game->map->floor_color = 0x444444;
-	game->map->ceiling_color = 0x87CEEB;
 	x = 0;
 	while (x < WIN_WIDTH)
 	{
