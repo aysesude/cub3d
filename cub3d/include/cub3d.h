@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -31,8 +32,12 @@
 #  define M_PI 3.14159265358979323846
 # endif
 
-# define WIN_WIDTH 1280
-# define WIN_HEIGHT 720
+# define WIN_WIDTH 2560
+# define WIN_HEIGHT 1440
+# define MOVE_SPEED 0.2
+# define ROT_SPEED 0.13962634
+# define COLLISION_DIST 0.2
+# define ROT_SPEED 0.13962634
 
 typedef struct s_player
 {

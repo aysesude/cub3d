@@ -1,7 +1,7 @@
-NO ./textures/prison.xpm
-SO ./textures/prison.xpm
-WE ./textures/prison.xpm
-EA ./textures/prison.xpm
+NO ./textures/tree.xpm
+SO ./textures/tree.xpm
+WE ./textures/tree.xpm
+EA ./textures/tree.xpm
 DO ./textures/door.xpm
 
 F 220,100,0

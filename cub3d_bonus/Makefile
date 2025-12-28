@@ -37,8 +37,8 @@ SRCS = main_bonus.c \
        src/validation/map_validation_walls_bonus.c \
        src/validation/map_validation_doors_bonus.c \
        src/validation/map_validation_closed_bonus.c \
-       get_next_line/get_next_line_bonus.c \
-       get_next_line/get_next_line_utils_bonus.c
+       get_next_line/get_next_line.c \
+       get_next_line/get_next_line_utils.c
 
 OBJS = $(SRCS:.c=.o)
 

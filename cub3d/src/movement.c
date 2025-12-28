@@ -6,16 +6,12 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 17:00:00 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/14 17:14:53 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/28 13:04:11 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 #include <math.h>
-
-#define MOVE_SPEED 0.15
-#define ROT_SPEED 0.13962634
-#define COLLISION_DIST 0.2
 
 static int	is_wall(t_game *game, double x, double y)
 {

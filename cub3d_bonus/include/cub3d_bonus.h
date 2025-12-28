@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:29:43 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/28 12:10:31 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/28 13:05:57 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@
 #  define M_PI 3.14159265358979323846
 # endif
 
-# define WIN_WIDTH 1280
-# define WIN_HEIGHT 720
+# define WIN_WIDTH 2560
+# define WIN_HEIGHT 1440
 # define MINIMAP_SIZE 256
 # define MINIMAP_VIEW 12
 # define MINIMAP_TILE 21
-# define MOVE_SPEED 0.15
+# define MOVE_SPEED 0.2
 # define ROT_SPEED 0.13962634
 # define COLLISION_DIST 0.2
 # define COLOR_WALL 0x555555

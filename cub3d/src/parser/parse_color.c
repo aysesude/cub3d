@@ -6,13 +6,12 @@
 /*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:24:57 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 11:54:19 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/28 13:03:10 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-/* Stringden 1 RGB number parse et */
 static int	parse_single_rgb(char *str, int *i)
 {
 	int	num;
@@ -32,7 +31,6 @@ static int	parse_single_rgb(char *str, int *i)
 	return (num);
 }
 
-/* RGB stringi color integer donustur */
 static int	rgb_to_color(int r, int g, int b)
 {
 	return ((r << 16) | (g << 8) | b);
