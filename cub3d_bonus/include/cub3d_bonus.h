@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:29:43 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/28 14:31:07 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/28 14:48:01 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ int			ray_dda_step(int *map, double *side, double *delta);
 void		calc_hit_point(t_game *game, double *rd, double *hit, double *side);
 double		deg_to_rad(double deg);
 char		*get_next_line(int fd);
-void		render_3d(t_game *game);
+void		render_3d_bonus(t_game *game);
 int			load_textures(t_game *game);
 int			get_texture_color(t_texture *tex, int x, int y);
 void		init_ray(t_game *game, t_ray *ray, int x);

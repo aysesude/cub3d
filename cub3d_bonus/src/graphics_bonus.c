@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphics_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:50 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/28 14:35:09 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/28 14:47:38 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	render_frame(t_game *game)
 {
 	handle_movement(game);
 	handle_doors(game);
-	render_3d(game);
+	render_3d_bonus(game);
 	render_mini_map(game);
 	return (0);
 }

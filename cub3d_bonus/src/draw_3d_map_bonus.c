@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_3d_map_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:41 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/28 12:09:23 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/28 14:50:08 by aycami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,11 @@ static void	draw_column(t_game *game, t_ray *ray, int x)
 	}
 }
 
-void	render_3d(t_game *game)
+void	render_3d_bonus(t_game *game)
 {
 	int		x;
 	t_ray	ray;
 
-	game->map->floor_color = 0x444444;
-	game->map->ceiling_color = 0x87ceeb;
 	x = 0;
 	while (x < WIN_WIDTH)
 	{

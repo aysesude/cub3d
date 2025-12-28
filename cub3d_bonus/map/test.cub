@@ -4,8 +4,8 @@ WE ./textures/tree.xpm
 EA ./textures/tree.xpm
 DO ./textures/door.xpm
 
-F 220,100,0
-C 225,30,0
+F 68,68,68
+C 135,206,235
 
         11111111111 11111111111111
         10000000001 10000000000001

@@ -1,0 +1,14 @@
+NO ./textures/tree.xpm
+SO ./textures/path_to_the_south_texture.xpm
+WE ./textures/path_to_the_west_texture.xpm
+EA ./textures/path_to_the_east_texture.xpm
+
+F 220,100,0
+C 225,30,0
+
+
+111111111111111111111111
+100000000000000000000001
+10000000000N000000000001
+10000000000000000000N001
+111111111111111111111111
