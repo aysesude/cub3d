@@ -1,24 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   movement2.c                                        :+:      :+:    :+:   */
+/*   movement2_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 17:00:00 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/14 17:12:16 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/28 12:05:07 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d_bonus.h"
 
-/*
-** move_left - Oyuncuyu sola (strafe) hareket ettirir
-** @game: Oyun yapısı
-**
-** Oyuncunun yönüne dik olarak sola MOVE_SPEED kadar hareket eder.
-** Çarpışma kontrolü yapar.
-*/
 void	move_left(t_game *game)
 {
 	double	new_x;
@@ -32,12 +25,6 @@ void	move_left(t_game *game)
 		game->player->y = new_y;
 }
 
-/*
-** rotate_left - Oyuncunun bakış açısını sola çevirir
-** @game: Oyun yapısı
-**
-** Yön vektörünü ve kamera düzlemini ROT_SPEED kadar sola döndürür.
-*/
 void	rotate_left(t_game *game)
 {
 	double	old_dir_x;
@@ -55,12 +42,6 @@ void	rotate_left(t_game *game)
 		+ game->player->plane_y * cos(ROT_SPEED);
 }
 
-/*
-** rotate_right - Oyuncunun bakış açısını sağa çevirir
-** @game: Oyun yapısı
-**
-** Yön vektörünü ve kamera düzlemini ROT_SPEED kadar sağa döndürür.
-*/
 void	rotate_right(t_game *game)
 {
 	double	old_dir_x;

@@ -6,7 +6,7 @@
 /*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/21 19:51:54 by raktas            #+#    #+#             */
-/*   Updated: 2025/12/24 15:44:17 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/28 11:51:42 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	validate_arguments(int argc)
 {
 	if (argc != 2)
 	{
-		ft_putstr_fd("Error\nUsage: ./cub3D <map.cub>\n", 2);
+		ft_putstr_fd("Error\nInvalid Argument Count\n", 2);
 		return (-1);
 	}
 	return (0);

@@ -1,25 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_minimap.c                                     :+:      :+:    :+:   */
+/*   draw_minimap_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:48 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/07 11:37:26 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/28 12:09:07 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d_bonus.h"
 
-/*
-** init_minimap - Minimap parametrelerini oyuncunun konumuna göre ayarlar
-** @game: Oyun yapısı
-** @mm: Minimap yapısı (çıktı)
-**
-** Minimap'ın haritada hangi alanı göstereceğini ve ekrandaki konumunu hesaplar.
-** px, py: Oyuncunun minimap'taki merkez koordinatları
-*/
 static void	init_minimap(t_game *game, t_minimap *mm)
 {
 	int	half;
@@ -37,13 +29,6 @@ static void	init_minimap(t_game *game, t_minimap *mm)
 	mm->py = mm->offset_y + lp[1];
 }
 
-/*
-** draw_minimap_bg - Minimap arka planını çizer
-** @game: Oyun yapısı
-** @mm: Minimap yapısı
-**
-** Minimap'ın arka planını (koyu renk) doldurur.
-*/
 static void	draw_minimap_bg(t_game *game, t_minimap *mm)
 {
 	int	yy;
@@ -64,14 +49,6 @@ static void	draw_minimap_bg(t_game *game, t_minimap *mm)
 	}
 }
 
-/*
-** draw_tile - Minimap'ta tek bir harita kutucuğunu çizer
-** @game: Oyun yapısı
-** @mm: Minimap yapısı
-** @v: Kutucuğun minimap içindeki (x, y) konumu
-**
-** Duvar, kapı, açık kapı gibi farklı karakterlere göre farklı renkler kullanır.
-*/
 static void	draw_tile(t_game *game, t_minimap *mm, int *v)
 {
 	int		pos[2];
@@ -88,13 +65,6 @@ static void	draw_tile(t_game *game, t_minimap *mm, int *v)
 		draw_square(game, pos, mm->tile_size, COLOR_DOOR_OPEN);
 }
 
-/*
-** draw_minimap_tiles - Minimap'taki tüm harita kutucuklarını çizer
-** @game: Oyun yapısı
-** @mm: Minimap yapısı
-**
-** Görünen alan içindeki tüm kutucukları döngüyle çizer.
-*/
 static void	draw_minimap_tiles(t_game *game, t_minimap *mm)
 {
 	int	v[2];
@@ -119,17 +89,6 @@ static void	draw_minimap_tiles(t_game *game, t_minimap *mm)
 	}
 }
 
-/*
-** render_mini_map - Minimap'ın tamamını çizer
-** @game: Oyun yapısı
-**
-** 1. Minimap parametrelerini ayarla
-** 2. Arka planı çiz
-** 3. Kutucukları çiz
-** 4. Oyuncu dairesini çiz
-** 5. Işınları çiz (görüş açısı)
-** 6. Sonucu pencereye bas
-*/
 void	render_mini_map(t_game *game)
 {
 	t_minimap	mm;

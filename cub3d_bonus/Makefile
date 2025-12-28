@@ -10,35 +10,35 @@ MLX = $(MLX_DIR)/libmlx_Linux.a
 
 HEADER = include/cub3d_bonus.h
 
-SRCS = main.c \
-       src/init_game.c \
-       src/utils.c \
-       src/graphics.c \
-       src/door_handler.c \
-       src/door_texture.c \
-       src/input.c \
-       src/movement.c \
-       src/movement2.c \
-       src/draw_minimap_utils.c \
-       src/draw_minimap.c \
-       src/draw_minimap_rays.c \
-       src/draw_minimap_rays_utils.c \
-       src/draw_3d_map.c \
-       src/texture.c \
-       src/raycasting.c \
-       src/parser/parse_file.c \
-       src/parser/parse_utils.c \
-       src/parser/parse_texture.c \
-       src/parser/parse_texture2.c \
-       src/parser/parse_map_grid.c \
-       src/parser/parse_color.c \
-       src/parser/parse_player.c \
-       src/validation/map_validation.c \
-       src/validation/map_validation_walls.c \
-       src/validation/map_validation_doors.c \
-       src/validation/map_validation_closed.c \
-       get_next_line/get_next_line.c \
-       get_next_line/get_next_line_utils.c
+SRCS = main_bonus.c \
+       src/init_game_bonus.c \
+       src/utils_bonus.c \
+       src/graphics_bonus.c \
+       src/door_handler_bonus.c \
+       src/door_texture_bonus.c \
+       src/input_bonus.c \
+       src/movement_bonus.c \
+       src/movement2_bonus.c \
+       src/draw_minimap_utils_bonus.c \
+       src/draw_minimap_bonus.c \
+       src/draw_minimap_rays_bonus.c \
+       src/draw_minimap_rays_utils_bonus.c \
+       src/draw_3d_map_bonus.c \
+       src/texture_bonus.c \
+       src/raycasting_bonus.c \
+       src/parser/parse_file_bonus.c \
+       src/parser/parse_utils_bonus.c \
+       src/parser/parse_texture_bonus.c \
+       src/parser/parse_texture2_bonus.c \
+       src/parser/parse_map_grid_bonus.c \
+       src/parser/parse_color_bonus.c \
+       src/parser/parse_player_bonus.c \
+       src/validation/map_validation_bonus.c \
+       src/validation/map_validation_walls_bonus.c \
+       src/validation/map_validation_doors_bonus.c \
+       src/validation/map_validation_closed_bonus.c \
+       get_next_line/get_next_line_bonus.c \
+       get_next_line/get_next_line_utils_bonus.c
 
 OBJS = $(SRCS:.c=.o)
 

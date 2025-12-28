@@ -1,43 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   movement.c                                         :+:      :+:    :+:   */
+/*   movement_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 17:00:00 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/14 17:14:53 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/28 12:06:08 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d_bonus.h"
 
-/*
-** is_wall - Verilen koordinatin duvar olup olmadigini kontrol eder
-** @game: Oyun yapisi
-** @x, @y: Kontrol edilecek dünya koordinatlari
-**
-** Koordinatlari harita indekslerine çevirir (int cast)
-** Sinir kontrolleri yapar (negatif veya harita disinda)
-**
-** Döner:
-** - 1: Duvar ('1') veya kapali kapi ('D')
-** - 1: Harita disi koordinat
-** - 0: Yürünebilir alan ('0', 'o' açik kapi)
-*/
-/*
-** is_wall - Verilen koordinatın duvar olup olmadığını kontrol eder
-** @game: Oyun yapısı
-** @x, @y: Kontrol edilecek dünya koordinatları
-**
-** Koordinatları harita indekslerine çevirir (int cast)
-** Sınır kontrolleri yapar (negatif veya harita dışında)
-**
-** Döner:
-** - 1: Duvar ('1') veya kapalı kapı ('D')
-** - 1: Harita dışı koordinat
-** - 0: Yürünebilir alan ('0', 'o' açık kapı)
-*/
 static int	is_wall(t_game *game, double x, double y)
 {
 	int	map_x;
@@ -53,15 +27,6 @@ static int	is_wall(t_game *game, double x, double y)
 		|| game->map->grid[map_y][map_x] == 'D');
 }
 
-/*
-** can_move - Oyuncunun verilen konuma çarpışmadan hareket edip edemeyeceğini kontrol eder
-** @game: Oyun yapısı
-** @x, @y: Hedef pozisyon
-**
-** Oyuncunun köşe noktalarını COLLISION_DIST kadar kaydırarak çarpışma kontrolü yapar.
-**
-** Döner: 1 ise hareket edilebilir, 0 ise engel var
-*/
 int	can_move(t_game *game, double x, double y)
 {
 	if (is_wall(game, x - COLLISION_DIST, y - COLLISION_DIST))
@@ -75,13 +40,6 @@ int	can_move(t_game *game, double x, double y)
 	return (1);
 }
 
-/*
-** move_forward - Oyuncuyu ileri hareket ettirir
-** @game: Oyun yapısı
-**
-** Oyuncunun yön vektörüne göre ileriye MOVE_SPEED kadar hareket eder.
-** Çarpışma kontrolü yapar.
-*/
 void	move_forward(t_game *game)
 {
 	double	new_x;
@@ -95,13 +53,6 @@ void	move_forward(t_game *game)
 		game->player->y = new_y;
 }
 
-/*
-** move_backward - Oyuncuyu geri hareket ettirir
-** @game: Oyun yapısı
-**
-** Oyuncunun yön vektörüne göre geriye MOVE_SPEED kadar hareket eder.
-** Çarpışma kontrolü yapar.
-*/
 void	move_backward(t_game *game)
 {
 	double	new_x;
@@ -115,13 +66,6 @@ void	move_backward(t_game *game)
 		game->player->y = new_y;
 }
 
-/*
-** move_right - Oyuncuyu sağa (strafe) hareket ettirir
-** @game: Oyun yapısı
-**
-** Oyuncunun yönüne dik olarak sağa MOVE_SPEED kadar hareket eder.
-** Çarpışma kontrolü yapar.
-*/
 void	move_right(t_game *game)
 {
 	double	new_x;

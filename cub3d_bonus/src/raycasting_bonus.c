@@ -1,25 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycasting.c                                       :+:      :+:    :+:   */
+/*   raycasting_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/14 17:40:00 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/14 17:42:14 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/28 12:10:49 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d_bonus.h"
 
-/*
-** init_ray - Ekrandaki bir sütun için ışın başlatır
-** @game: Oyun yapısı
-** @ray: Işın bilgisi (çıktı)
-** @x: Ekran sütunu (piksel)
-**
-** Oyuncunun bakış açısına göre ışının yönünü ve harita üzerindeki başlangıç noktasını hesaplar.
-*/
 void	init_ray(t_game *game, t_ray *ray, int x)
 {
 	double	camera_x;
@@ -41,13 +33,6 @@ void	init_ray(t_game *game, t_ray *ray, int x)
 	ray->side = 0;
 }
 
-/*
-** calc_step_and_side_dist - DDA için adım ve ilk yan mesafeleri hesaplar
-** @game: Oyun yapısı
-** @ray: Işın bilgisi
-**
-** Işının hangi yöne gideceğini ve ilk grid kenarına olan mesafeyi ayarlar.
-*/
 void	calc_step_and_side_dist(t_game *game, t_ray *ray)
 {
 	if (ray->ray_dir_x < 0)
@@ -74,13 +59,6 @@ void	calc_step_and_side_dist(t_game *game, t_ray *ray)
 	}
 }
 
-/*
-** perform_dda - DDA algoritması ile ışını haritada ilerletir
-** @game: Oyun yapısı
-** @ray: Işın bilgisi
-**
-** Işın, duvar veya kapıya çarpana kadar grid hücrelerinde adım atar.
-*/
 void	perform_dda(t_game *game, t_ray *ray)
 {
 	while (ray->hit == 0)
@@ -103,13 +81,6 @@ void	perform_dda(t_game *game, t_ray *ray)
 	}
 }
 
-/*
-** calc_wall_height - Duvara olan mesafeye göre ekranda çizilecek yükseklikleri hesaplar
-** @game: Oyun yapısı
-** @ray: Işın bilgisi
-**
-** Perspektif düzeltmesiyle duvarın ekrandaki yüksekliğini ve çizim aralığını belirler.
-*/
 void	calc_wall_height(t_game *game, t_ray *ray)
 {
 	if (ray->side == 0)
@@ -127,13 +98,6 @@ void	calc_wall_height(t_game *game, t_ray *ray)
 		ray->draw_end = WIN_HEIGHT - 1;
 }
 
-/*
-** get_wall_texture - Işının çarptığı duvarın yönüne göre doğru texture'ı döner
-** @game: Oyun yapısı
-** @ray: Işın bilgisi
-**
-** Yan (side) ve ışın yönüne göre kuzey, güney, doğu, batı duvarı texture'ı seçilir.
-*/
 t_texture	*get_wall_texture(t_game *game, t_ray *ray)
 {
 	if (ray->side == 0)

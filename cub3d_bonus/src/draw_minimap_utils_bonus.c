@@ -1,25 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_utils.c                                       :+:      :+:    :+:   */
+/*   draw_minimap_utils_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 00:00:00 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/27 00:00:00 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/28 12:08:07 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d_bonus.h"
 
-/*
-** put_pixel - Ekrandaki bir pikseli verilen renkle boyar
-** @game: Oyun yapısı
-** @x, @y: Piksel koordinatları
-** @color: Renk (hex)
-**
-** MLX image buffer'ına doğrudan erişerek (addr) pikseli renklendirir.
-*/
 void	put_pixel(t_game *game, int x, int y, int color)
 {
 	char	*dst;
@@ -30,13 +22,6 @@ void	put_pixel(t_game *game, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-/*
-** draw_square - Minimap'ta kare bir alanı boyar
-** @game: Oyun yapısı
-** @pos: Sol üst köşe koordinatı (x, y)
-** @size: Karenin kenar uzunluğu (px)
-** @color: Renk (hex)
-*/
 void	draw_square(t_game *game, int *pos, int size, int color)
 {
 	int	i;
@@ -55,13 +40,6 @@ void	draw_square(t_game *game, int *pos, int size, int color)
 	}
 }
 
-/*
-** draw_circle - Minimap'ta daire çizer (ör. oyuncu veya ray vuruş noktası)
-** @game: Oyun yapısı
-** @center: Merkez koordinatı (x, y)
-** @r: Yarıçap (px)
-** @color: Renk (hex)
-*/
 void	draw_circle(t_game *game, int *center, int r, int color)
 {
 	int	y;
@@ -81,12 +59,6 @@ void	draw_circle(t_game *game, int *center, int r, int color)
 	}
 }
 
-/*
-** draw_line_step - Bresenham algoritmasında bir adım atar
-** @pos: Mevcut piksel koordinatı (x, y)
-** @delta: Farklar ve yönler
-** @err: Hata değeri
-*/
 static void	draw_line_step(int *pos, int *delta, int *err)
 {
 	int	e2;
@@ -104,13 +76,6 @@ static void	draw_line_step(int *pos, int *delta, int *err)
 	}
 }
 
-/*
-** draw_line - İki nokta arasında doğru çizer (Bresenham algoritması)
-** @game: Oyun yapısı
-** @p0: Başlangıç noktası (x, y)
-** @p1: Bitiş noktası (x, y)
-** @color: Renk (hex)
-*/
 void	draw_line(t_game *game, int *p0, int *p1, int color)
 {
 	int	delta[4];
