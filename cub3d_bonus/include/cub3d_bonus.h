@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aycami <aycami@student.42.fr>              +#+  +:+       +#+        */
+/*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 11:29:43 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/28 13:05:57 by aycami           ###   ########.fr       */
+/*   Updated: 2025/12/28 14:31:07 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ int			validate_map_doors(t_game *game);
 void		write_number(int n);
 int			validate_map_closed(t_game *game);
 int			init_graphics(t_game *game);
-void		game_loop(t_game *game);
+void		game_loop_bonus(t_game *game);
 void		render_mini_map(t_game *game);
 void		put_pixel(t_game *game, int x, int y, int color);
 void		draw_line(t_game *game, int *p0, int *p1, int color);

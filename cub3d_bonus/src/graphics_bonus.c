@@ -6,7 +6,7 @@
 /*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/07 03:11:50 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/28 12:07:35 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/28 14:35:09 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	render_frame(t_game *game)
 	return (0);
 }
 
-void	game_loop(t_game *game)
+void	game_loop_bonus(t_game *game)
 {
 	mlx_loop_hook(game->mlx, render_frame, game);
 	mlx_loop(game->mlx);

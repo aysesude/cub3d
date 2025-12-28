@@ -6,7 +6,7 @@
 /*   By: raktas <raktas@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/27 00:00:00 by aycami            #+#    #+#             */
-/*   Updated: 2025/12/28 14:19:03 by raktas           ###   ########.fr       */
+/*   Updated: 2025/12/28 14:30:47 by raktas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv)
 		cleanup_game(game);
 		return (1);
 	}
-	game_loop(game);
+	game_loop_bonus(game);
 	cleanup_game(game);
 	return (0);
 }
