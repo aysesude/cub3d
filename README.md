@@ -23,6 +23,16 @@ Below is an example using an alternative texture set.
   <img src="gifs/gif3.gif" width="700"/>
 </p>
 
+---
+
+## Direction-Based Textures & Sky Color
+
+Each wall direction (North, South, East, West) can have its own texture.  
+The ceiling and floor colors can also be customized through the `.cub` configuration file.
+
+<p align="center">
+  <img src="gifs/gif2.gif" width="700"/>
+</p>
 
 ---
 
