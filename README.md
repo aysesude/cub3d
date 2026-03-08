@@ -4,14 +4,25 @@ Cub3D is a small 3D game engine developed as part of the 42 curriculum.
 The goal of the project is to create a basic first-person view using a **raycasting algorithm**, inspired by early 3D games like Wolfenstein 3D.
 
 ---
+## Gameplay
 
-## Demo
+Basic gameplay showing player movement and the raycasting rendering.
 
 <p align="center">
   <img src="gifs/gif1.gif" width="700"/>
+</p>
 
+---
+
+## Custom Wall Textures
+
+Cub3D allows the use of different wall textures.  
+Below is an example using an alternative texture set.
+
+<p align="center">
   <img src="gifs/gif3.gif" width="700"/>
 </p>
+
 
 ---
 
