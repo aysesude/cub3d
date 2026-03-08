@@ -9,8 +9,8 @@ The goal of the project is to create a basic first-person view using a **raycast
 
 <p align="center">
   <img src="gifs/gif1.gif" width="700"/>
+
   <img src="gifs/gif3.gif" width="700"/>
-  <img src="gifs/gif2.gif" width="700"/>
 </p>
 
 ---
